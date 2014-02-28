@@ -7,7 +7,7 @@ All calls return either {:ok, response} or {:error, response}
 Usage:
 ```
 defmodule MyModule do
-  	use Balanced, secret: "my-secret", marketplace_id: "my-marketplace"
+  	use Balanced, secret_key: "my-secret", marketplace_id: "my-marketplace"
 
   	def do_stuff() do
       {status, response} = BankAccounts.create("john doe", "account_number", "routing_number")
