@@ -28,19 +28,20 @@ defmodule Balanced do
   				alias HTTPotion.Response
 
   				@basic_auth :base64.encode_to_string("#{unquote(secret)}:")
-  				@headers [ "Authorization": "Basic #{@basic_auth}"] 
+  				@headers [ "Authorization": "Basic #{@basic_auth}"]
+  				@form_header  ["Content-Type": "application/x-www-form-urlencoded"] 
 				@url "https://api.balancedpayments.com/v1/"
 
 				def get(endpoint) do
 				    HTTPotion.get(@url <> endpoint, @headers) |> handle_response
 			  	end
 
-				def post(endpoint, body \\ "") do
-				    HTTPotion.post(@url <> endpoint, body, @headers ) |> handle_response
+				def post(endpoint, body \\ []) do
+				    HTTPotion.post(@url <> endpoint, dict_to_params(body), Enum.concat(@headers, @form_header ) ) |> handle_response
 			  	end
 
-				def put(endpoint, body \\ "") do
-				    HTTPotion.put(@url <> endpoint, body, @headers ) |> handle_response
+				def put(endpoint, body \\ []) do
+				    HTTPotion.put(@url <> endpoint, dict_to_params(body), Enum.concat(@headers, @form_header ) ) |> handle_response
 			  	end
 
 				def delete(endpoint) do
@@ -54,6 +55,23 @@ defmodule Balanced do
 			      	else
 				        { :error, json_decoded}	
 			    	end		
+			  	end
+
+			  	def dict_to_params(params_dict, header \\ "") do
+			  		Enum.map(params_dict, &get_param_string(&1, header)) 
+			  		|> Enum.join("&")
+			  	end
+
+			  	def get_param_string(kv, header \\ "") do
+			  		{key, value} = kv
+			  		cond do
+			  			!is_list(value) and header == "" ->
+			  				"#{key}=#{value}"
+			  			!is_list(value) and header != "" ->
+			  				"#{header}[#{key}]=#{value}"	
+			  			true ->
+			  				dict_to_params(value, key)	  						  				
+			  		end
 			  	end
 			end
 
@@ -79,10 +97,9 @@ defmodule Balanced do
 					Http.get(endpoint)
 				end
 
-				def create(name, account_number, bank_code, routing_number, account_type \\ nil, type \\ nil, meta \\ nil) do
+				def create(name, account_number, routing_number, account_type \\ nil, type \\ nil, meta \\ nil) do
 					body = [
-						name: name, account_number: account_number, bank_code: bank_code, 
-						routing_number: routing_number, account_type: account_type
+						name: name, account_number: account_number, routing_number: routing_number
 					]
 
 					if account_type != nil, do: body = Dict.put(body, :account_type, account_type)
