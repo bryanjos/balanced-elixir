@@ -2,6 +2,7 @@
 
 Balanced Api Client for Elixir
 
+All calls return either {:ok, response} or {:error, response}
 
 Usage:
 ```
