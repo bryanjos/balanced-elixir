@@ -3,7 +3,7 @@ defmodule Balanced do
 	This module defines the balanced API. Use it as follows
 
 	defmodule MyModule do
-		use Balanced, secret: "secret-key", marketplace_id: "marketplace_id"
+		use Balanced, secret_key: "secret_key", marketplace_id: "marketplace_id"
 
 		def get_bank_account(bank_account_id) do
 			BankAccounts.get(bank_account_id)
@@ -19,7 +19,7 @@ defmodule Balanced do
 	Info about the contents can be found at https://docs.balancedpayments.com/1.0/api/
 	"""
 	defmacro __using__(opts) do
-		secret = Keyword.fetch!(opts, :secret)
+		secret_key = Keyword.fetch!(opts, :secret_key)
 		marketplace_id = Keyword.fetch!(opts, :marketplace_id)
 
 		quote do
@@ -27,25 +27,26 @@ defmodule Balanced do
 			defmodule Http do
   				alias HTTPotion.Response
 
-  				@basic_auth :base64.encode_to_string("#{unquote(secret)}:")
+  				@basic_auth :base64.encode_to_string("#{unquote(secret_key)}:")
   				@headers [ "Authorization": "Basic #{@basic_auth}"]
   				@form_header  ["Content-Type": "application/x-www-form-urlencoded"] 
 				@url "https://api.balancedpayments.com/v1/"
+				@options [timeout: 7000]
 
 				def get(endpoint) do
-				    HTTPotion.get(@url <> endpoint, @headers) |> handle_response
+				    HTTPotion.get(@url <> endpoint, @headers, options: @options) |> handle_response
 			  	end
 
 				def post(endpoint, body \\ []) do
-				    HTTPotion.post(@url <> endpoint, dict_to_params(body), Enum.concat(@headers, @form_header ) ) |> handle_response
+				    HTTPotion.post(@url <> endpoint, dict_to_params(body), Enum.concat(@headers, @form_header ), options: @options ) |> handle_response
 			  	end
 
 				def put(endpoint, body \\ []) do
-				    HTTPotion.put(@url <> endpoint, dict_to_params(body), Enum.concat(@headers, @form_header ) ) |> handle_response
+				    HTTPotion.put(@url <> endpoint, dict_to_params(body), Enum.concat(@headers, @form_header ), options: @options ) |> handle_response
 			  	end
 
 				def delete(endpoint) do
-				    HTTPotion.delete(@url <> endpoint, @headers) |> handle_response
+				    HTTPotion.delete(@url <> endpoint, @headers, options: @options) |> handle_response
 			  	end
 
 			  	defp handle_response(response) do
@@ -286,12 +287,12 @@ defmodule Balanced do
 					Http.post("customers", body)
 				end
 
-				def add_card(customer_id, card_id) do
-					Http.put("customers/#{customer_id}", [card_uri: card_id])
+				def add_card(customer_id, card_uri) do
+					Http.put("customers/#{customer_id}", [card_uri: card_uri])
 				end
 
-				def add_bank_account(customer_id, bank_account_id) do
-					Http.put("customers/#{customer_id}", [bank_account_uri: bank_account_id])
+				def add_bank_account(customer_id, bank_account_uri) do
+					Http.put("customers/#{customer_id}", [bank_account_uri: bank_account_uri])
 				end
 
 				def credits(customer_id, limit \\ 0, offset \\ 0) do
@@ -309,7 +310,7 @@ defmodule Balanced do
 					Http.get(endpoint)
 				end
 
-				def debit(customer_id, on_behalf_of_uri \\ nil, amount \\ nil, 
+				def debit(customer_id, amount \\ nil, on_behalf_of_uri \\ nil, 
 					appears_on_statement_as \\ nil, meta \\ nil, description \\ nil, 
 					account_uri \\ nil, customer_uri \\ nil, hold_uri \\ nil, source_uri \\ nil) do
 
