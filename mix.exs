@@ -3,7 +3,7 @@ defmodule Balanced.Mixfile do
 
   def project do
     [ app: :balanced,
-      version: "1.0.1",
+      version: "1.0.2",
       elixir: "~> 0.12.4",
       deps: deps,
       source_url: "https://github.com/bryanjos/balanced-elixir"  ]

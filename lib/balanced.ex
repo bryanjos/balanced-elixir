@@ -274,12 +274,12 @@ defmodule Balanced do
 					address_postal_code != nil or address_country_code != nil do
 						address = []
 
-						if address_line1 != nil, do: address = Dict.put(address, :line1, name)
-						if address_line2 != nil, do: address = Dict.put(address, :line2, email)
-						if address_city != nil, do: address = Dict.put(address, :city, meta)
-						if address_state != nil, do: address = Dict.put(address, :state, ssn_last4)
-						if address_postal_code != nil, do: address = Dict.put(address, :postal_code, phone)
-						if address_country_code != nil, do: address = Dict.put(address, :country_code, dob)
+						if address_line1 != nil, do: address = Dict.put(address, :line1, address_line1)
+						if address_line2 != nil, do: address = Dict.put(address, :line2, address_line2)
+						if address_city != nil, do: address = Dict.put(address, :city, address_city)
+						if address_state != nil, do: address = Dict.put(address, :state, address_state)
+						if address_postal_code != nil, do: address = Dict.put(address, :postal_code, address_postal_code)
+						if address_country_code != nil, do: address = Dict.put(address, :country_code, address_country_code)
 
 						body = Dict.put(body, :address, address)
 					end
