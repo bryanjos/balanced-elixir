@@ -33,8 +33,7 @@ defmodule BalancedElixirTest do
 
 		bank_id = hd(response["bank_accounts"])["id"]
 
-		{status, response} = BankAccounts.credit(bank_id, 1000)
-		IO.inspect response
+		{status, _} = BankAccounts.credit(bank_id, 1000)
 		assert(status == :ok)
 	end
 

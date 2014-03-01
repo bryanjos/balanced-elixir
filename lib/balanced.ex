@@ -19,7 +19,8 @@ defmodule Balanced do
 	Info about the contents can be found at https://docs.balancedpayments.com/1.0/api/
 	"""
 	defmacro __using__(opts) do
-		secret_key = Keyword.fetch!(opts, :secret_key)
+		secret_key = Keyword.get(opts, :secret_key)
+		timeout = Keyword.get(opts, :timeout, 7000)
 
 		quote do
 
@@ -30,7 +31,7 @@ defmodule Balanced do
   				@headers [ "Authorization": "Basic #{@basic_auth}", "Accept": "application/vnd.api+json;revision=1.1"]
   				@form_header  ["Content-Type": "application/x-www-form-urlencoded"] 
 				@url "https://api.balancedpayments.com/"
-				@options [timeout: 7000]
+				@options [timeout: unquote(timeout)]
 
 				def get(endpoint) do
 				    HTTPotion.get(@url <> endpoint, @headers, options: @options) |> handle_response
