@@ -1,6 +1,6 @@
 defmodule BalancedElixirTest do
   	use ExUnit.Case, async: true
-  	use Balanced, secret_key: System.get_env("BALANCED_SECRET_KEY"), marketplace_id: System.get_env("BALANCED_MARKETPLACE_ID")
+  	use Balanced, secret_key: System.get_env("BALANCED_SECRET_KEY")
 
   	setup_all do
   		{		:ok, 	
