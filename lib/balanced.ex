@@ -141,29 +141,16 @@ defmodule Balanced do
 					Http.post("#{@endpoint}/#{id}/debits", body)
 				end
 
-				def credit(id, amount, destination \\ nil, order \\ nil) do
+				def credit(id, amount, description \\ nil, order \\ nil) do
 					body = [amount: amount]
 
-					if destination != nil, do: body = Dict.put(body, :destination, destination)
+					if description != nil, do: body = Dict.put(body, :description, description)
 					if order != nil, do: body = Dict.put(body, :order, order)
 
 					Http.post("#{@endpoint}/#{id}/credits", body)
 				end
 
-				def credits(id, limit \\ 0, offset \\ 0) do
-					endpoint = "#{@endpoint}/#{id}/credits"
-
-					cond do
-						limit > 0 and offset <= 0 ->
-							endpoint =  endpoint <> "?limit=#{limit}"
-						limit > 0 and offset > 0 ->
-							endpoint = endpoint <> "?limit=#{limit}&offset=#{offset}"
-						true ->
-							endpoint							
-					end
-
-					Http.get(endpoint)
-				end
+				def credits(id, limit \\ 0, offset \\ 0), do: Base.list("#{@endpoint}/#{id}/credits", limit, offset)
 			end
 
 			defmodule BankAccountVerifications do
@@ -232,12 +219,11 @@ defmodule Balanced do
 					Http.put("#{@endpoint}/#{id}", body)
 				end
 
-				def debit(id, appears_on_statement_as \\ nil, source \\ nil, amount \\ nil, order \\ nil) do
-					body = []
+				def debit(id, amount, appears_on_statement_as \\ nil, source \\ nil, order \\ nil) do
+					body = [amount: amount]
 
 					if appears_on_statement_as != nil, do: body = Dict.put(body, :appears_on_statement_as, appears_on_statement_as)
 					if source != nil, do: body = Dict.put(body, :source, source)
-					if amount != nil, do: body = Dict.put(body, :amount, amount)
 					if order != nil, do: body = Dict.put(body, :order, order)
 
 					Http.post("#{@endpoint}/#{id}/debits", body)

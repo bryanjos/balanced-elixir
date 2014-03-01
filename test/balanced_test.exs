@@ -31,9 +31,10 @@ defmodule BalancedElixirTest do
 		{status, response} = context[:bank_account]
 		assert(status == :ok)
 
-		bank_id = response["id"]
+		bank_id = hd(response["bank_accounts"])["id"]
 
-		{status, _} = BankAccounts.credit(bank_id, 1000)
+		{status, response} = BankAccounts.credit(bank_id, 1000)
+		IO.inspect response
 		assert(status == :ok)
 	end
 
@@ -46,30 +47,30 @@ defmodule BalancedElixirTest do
 		{status, response} = context[:customer]
 		assert(status == :ok)
 
-		id = response["id"]
+		id = hd(response["customers"])["id"]
 
 		{status, response} = context[:credit_card]
 		assert(status == :ok)
 
-		card_id = response["id"]
+		card_id = hd(response["cards"])["id"]
 
 		{status, _} = Customers.add_card(id, card_id)
 		assert(status == :ok)
 
-		{status, _} = Customers.debit(id, 1000)
+		{status, _} = Cards.debit(card_id, 1000)
 		assert(status == :ok)
 	end
 
 	test "Add a Bank Account to a Customer", context do
-		{status, _} = context[:customer]
+		{status, response} = context[:customer]
 		assert(status == :ok)
 
-		id = response["id"]
+		id = hd(response["customers"])["id"]
 
 		{status, response} = context[:bank_account]
 		assert(status == :ok)
 
-		bank_id = response["id"]
+		bank_id = hd(response["bank_accounts"])["id"]
 
 		{status, _} = Customers.add_bank_account(id, bank_id)
 		assert(status == :ok)
@@ -77,27 +78,27 @@ defmodule BalancedElixirTest do
 
   	teardown_all context do
  		{_, response} = context[:bank_account]
-		id = response["id"]
+		id = hd(response["bank_accounts"])["id"]
 
 		{status, _} = BankAccounts.delete(id)
 		assert(status == :ok)
 
 		{status, response} = BankAccounts.get(id)
 		assert(status == :error)
-		assert(response["status"] == "Not Found")
+		assert(hd(response["errors"])["status"]== "Not Found")
 		
 		{_, response} = context[:credit_card]
-		id = response["id"]
+		id = hd(response["cards"])["id"]
 
 		{status, _} = Cards.delete(id)
 		assert(status == :ok)
 
 		{status, response} = Cards.get(id)
 		assert(status == :error)
-		assert(response["status"] == "Not Found")
+		assert(hd(response["errors"])["status"] == "Not Found")
 
 		{_, response} = context[:customer]
-		id = response["id"]
+		id = hd(response["customers"])["id"]
 
 		#Cannot delete customers with transactions
 		{status, _} = Customers.delete(id)
