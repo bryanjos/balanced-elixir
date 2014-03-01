@@ -5,8 +5,8 @@ defmodule BalancedElixirTest do
   	setup_all do
   		{		:ok, 	
   				[
-  					bank_account: BankAccounts.create("Jon Doe", "9900000002", "021000021"), 
-  					credit_card: Cards.tokenize("4111111111111111", "2016", "12", "123"),
+  					bank_account: BankAccounts.create("Jon Doe", "9900000002", "021000021", "checking"), 
+  					credit_card: Cards.create("4111111111111111", "2016", "12", "123"),
   					customer: Customers.create("Jon Doe", meta: [cool_guy: true])
   				]
   		}
@@ -37,7 +37,7 @@ defmodule BalancedElixirTest do
 		assert(status == :ok)
 	end
 
-	test "tokenize a card", context do
+	test "create a card", context do
 		{status, _} = context[:credit_card]
 		assert(status == :ok)
 	end
@@ -51,9 +51,9 @@ defmodule BalancedElixirTest do
 		{status, response} = context[:credit_card]
 		assert(status == :ok)
 
-		card_uri = response["uri"]
+		card_id = response["id"]
 
-		{status, _} = Customers.add_card(id, card_uri)
+		{status, _} = Customers.add_card(id, card_id)
 		assert(status == :ok)
 
 		{status, _} = Customers.debit(id, 1000)
@@ -61,7 +61,7 @@ defmodule BalancedElixirTest do
 	end
 
 	test "Add a Bank Account to a Customer", context do
-		{status, response} = context[:customer]
+		{status, _} = context[:customer]
 		assert(status == :ok)
 
 		id = response["id"]
@@ -69,9 +69,9 @@ defmodule BalancedElixirTest do
 		{status, response} = context[:bank_account]
 		assert(status == :ok)
 
-		bank_uri = response["uri"]
+		bank_id = response["id"]
 
-		{status, _} = Customers.add_bank_account(id, bank_uri)
+		{status, _} = Customers.add_bank_account(id, bank_id)
 		assert(status == :ok)
 	end
 

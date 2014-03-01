@@ -93,6 +93,396 @@ defmodule Balanced do
 					Http.get(ep)
 				end
 			end
+
+			defmodule APIKeys do
+				@endpoint "api_keys"
+
+				def get(id), do: Base.get(@endpoint, id)
+				def list(limit \\ 0, offset \\ 0), do: Base.list(@endpoint, limit, offset)
+				def delete(id), do: Base.delete(@endpoint, id)
+				def create(), do: Http.post(@endpoint)
+			end
+
+			defmodule BankAccounts do
+				@endpoint "bank_accounts"
+
+				def get(id), do: Base.get(@endpoint, id)
+				def list(limit \\ 0, offset \\ 0), do: Base.list(@endpoint, limit, offset)
+				def delete(id), do: Base.delete(@endpoint, id)
+
+				def create(name, account_number, routing_number, account_type, address_country_code \\ nil) do
+					body = [
+						name: name, account_number: account_number, routing_number: routing_number, account_type: account_type
+					]
+
+					if address_country_code != nil, do: body = Dict.put(body, :address, [country_code: address_country_code])
+
+					Http.post(@endpoint, body)
+				end
+
+				def update(id, meta \\ nil, links \\ nil) do
+					body = []
+
+					if meta != nil, do: body = Dict.put(body, :meta, meta)
+					if links != nil, do: body = Dict.put(body, :links, links)
+
+					Http.put(@endpoint, body)
+				end
+
+				def debit(id, appears_on_statement_as \\ nil, source \\ nil, amount \\ nil, order \\ nil) do
+					body = [
+					]
+
+					if appears_on_statement_as != nil, do: body = Dict.put(body, :appears_on_statement_as, appears_on_statement_as)
+					if source != nil, do: body = Dict.put(body, :source, source)
+					if amount != nil, do: body = Dict.put(body, :amount, amount)
+					if order != nil, do: body = Dict.put(body, :order, order)
+
+					Http.post("#{@endpoint}/#{id}/debits", body)
+				end
+
+				def credit(id, amount, destination \\ nil, order \\ nil) do
+					body = [amount: amount]
+
+					if destination != nil, do: body = Dict.put(body, :destination, destination)
+					if order != nil, do: body = Dict.put(body, :order, order)
+
+					Http.post("#{@endpoint}/#{id}/credits", body)
+				end
+
+				def credits(id, limit \\ 0, offset \\ 0) do
+					endpoint = "#{@endpoint}/#{id}/credits"
+
+					cond do
+						limit > 0 and offset <= 0 ->
+							endpoint =  endpoint <> "?limit=#{limit}"
+						limit > 0 and offset > 0 ->
+							endpoint = endpoint <> "?limit=#{limit}&offset=#{offset}"
+						true ->
+							endpoint							
+					end
+
+					Http.get(endpoint)
+				end
+			end
+
+			defmodule BankAccountVerifications do
+				@endpoint "verifications"
+
+				def get(id), do: Base.get(@endpoint, id)
+
+				def create(bank_account_id), do: Http.post("bank_accounts/#{bank_account_id}/#{@endpoint}")
+
+				def confirm(id, amount_1, amount_2) do
+					Http.put("#{@endpoint}/#{id}", [ amount_1: amount_1, amount_2: amount_2])
+				end
+			end
+
+			defmodule Callbacks do
+				@endpoint "callbacks"
+
+				def get(id), do: Base.get(@endpoint, id)
+				def list(limit \\ 0, offset \\ 0), do: Base.list(@endpoint, limit, offset)
+				def delete(id), do: Base.delete(@endpoint, id)
+				def create(url), do: Http.post(@endpoint, [url: url])
+			end
+
+			defmodule Cards do
+				@endpoint "cards"
+
+				def get(id), do: Base.get(@endpoint, id)
+				def list(limit \\ 0, offset \\ 0), do: Base.list(@endpoint, limit, offset)
+				def delete(id), do: Base.delete(@endpoint, id)
+
+				def create(number, expiration_year, expiration_month, 
+					cvv \\ nil, name \\ nil, address_line1 \\ nil, 
+					address_line2 \\ nil, address_city \\ nil, address_state \\ nil, 
+					address_postal_code \\ nil, address_country_code \\ nil) do
+
+					body = [
+						number: number, expiration_year: expiration_year, expiration_month: expiration_month
+					]
+
+					if cvv != nil, do: body = Dict.put(body, :cvv, cvv)
+					if name != nil, do: body = Dict.put(body, :name, name)
+
+					if address_line1 != nil or address_line2 != nil or address_city != nil or address_state != nil or
+					address_postal_code != nil or address_country_code != nil do
+						address = []
+
+						if address_line1 != nil, do: address = Dict.put(address, :line1, address_line1)
+						if address_line2 != nil, do: address = Dict.put(address, :line2, address_line2)
+						if address_city != nil, do: address = Dict.put(address, :city, address_city)
+						if address_state != nil, do: address = Dict.put(address, :state, address_state)
+						if address_postal_code != nil, do: address = Dict.put(address, :postal_code, address_postal_code)
+						if address_country_code != nil, do: address = Dict.put(address, :country_code, address_country_code)
+
+						body = Dict.put(body, :address, address)
+					end
+
+					Http.post(@endpoint, body)
+				end
+
+				def update(id, meta \\ nil, links \\ nil) do
+					body = []
+
+					if meta != nil, do: body = Dict.put(body, :meta, meta)
+					if links != nil, do: body = Dict.put(body, :links, links)
+
+					Http.put("#{@endpoint}/#{id}", body)
+				end
+
+				def debit(id, appears_on_statement_as \\ nil, source \\ nil, amount \\ nil, order \\ nil) do
+					body = []
+
+					if appears_on_statement_as != nil, do: body = Dict.put(body, :appears_on_statement_as, appears_on_statement_as)
+					if source != nil, do: body = Dict.put(body, :source, source)
+					if amount != nil, do: body = Dict.put(body, :amount, amount)
+					if order != nil, do: body = Dict.put(body, :order, order)
+
+					Http.post("#{@endpoint}/#{id}/debits", body)
+				end
+			end
+
+			defmodule CardHolds do
+				@endpoint "card_holds"
+
+				def get(id), do: Base.get(@endpoint, id)
+				def list(limit \\ 0, offset \\ 0), do: Base.list(@endpoint, limit, offset)
+
+				def create(card_id, amount) do
+					body = [amount: amount]
+					Http.post("cards/#{card_id}/#{@endpoint}", body)
+				end
+
+				def update(id, meta \\ nil, description \\ nil) do
+					body = []
+
+					if meta != nil, do: body = Dict.put(body, :meta, meta)
+					if description != nil, do: body = Dict.put(body, :description, description)
+
+					Http.put("#{@endpoint}/#{id}", body)
+				end
+
+				def debit(id, appears_on_statement_as \\ nil, source \\ nil, amount \\ nil, order \\ nil) do
+					body = []
+
+					if appears_on_statement_as != nil, do: body = Dict.put(body, :appears_on_statement_as, appears_on_statement_as)
+					if source != nil, do: body = Dict.put(body, :source, source)
+					if amount != nil, do: body = Dict.put(body, :amount, amount)
+					if order != nil, do: body = Dict.put(body, :order, order)
+
+					Http.post("#{@endpoint}/#{id}/debits", body)
+				end
+
+				def void(id), do: Http.put("#{@endpoint}/#{id}", [is_void: true])
+			end
+
+			defmodule Credits do
+				@endpoint "credits"
+
+				def get(id), do: Base.get(@endpoint, id)
+				def list(limit \\ 0, offset \\ 0), do: Base.list(@endpoint, limit, offset)
+
+				def update(id, meta \\ nil, description \\ nil) do
+					body = []
+
+					if description != nil, do: body = Dict.put(body, :description, description)
+					if meta != nil, do: body = Dict.put(body, :meta, meta)
+
+					Http.post("#{@endpoint}/#{id}", body)
+				end
+			end
+
+			defmodule Customers do
+				@endpoint "customers"
+
+				def get(id), do: Base.get(@endpoint, id)
+				def list(limit \\ 0, offset \\ 0), do: Base.list(@endpoint, limit, offset)
+				def delete(id), do: Base.delete(@endpoint, id)
+
+				def create(name \\ nil, email \\ nil, meta \\ nil, 
+					ssn_last4 \\ nil, business_name \\ nil, address_line1 \\ nil, 
+					address_line2 \\ nil, address_city \\ nil, address_state \\ nil, 
+					address_postal_code \\ nil, address_country_code \\ nil, 
+					phone \\ nil, dob_month \\ nil, dob_year \\ nil, ein \\ nil, source \\ nil) do
+
+					body = []
+
+					if name != nil, do: body = Dict.put(body, :name, name)
+					if email != nil, do: body = Dict.put(body, :email, email)
+					if meta != nil, do: body = Dict.put(body, :meta, meta)
+					if ssn_last4 != nil, do: body = Dict.put(body, :ssn_last4, ssn_last4)
+					if phone != nil, do: body = Dict.put(body, :phone, phone)
+					if dob_month != nil, do: body = Dict.put(body, :dob_month, dob_month)
+					if dob_year != nil, do: body = Dict.put(body, :dob_year, dob_year)
+					if ein != nil, do: body = Dict.put(body, :ein, ein)
+					if source != nil, do: body = Dict.put(body, :source, source)
+
+					if address_line1 != nil or address_line2 != nil or address_city != nil or address_state != nil or
+					address_postal_code != nil or address_country_code != nil do
+						address = []
+
+						if address_line1 != nil, do: address = Dict.put(address, :line1, address_line1)
+						if address_line2 != nil, do: address = Dict.put(address, :line2, address_line2)
+						if address_city != nil, do: address = Dict.put(address, :city, address_city)
+						if address_state != nil, do: address = Dict.put(address, :state, address_state)
+						if address_postal_code != nil, do: address = Dict.put(address, :postal_code, address_postal_code)
+						if address_country_code != nil, do: address = Dict.put(address, :country_code, address_country_code)
+
+						body = Dict.put(body, :address, address)
+					end
+
+					Http.post(@endpoint, body)
+				end
+
+				def update(id, name \\ nil, email \\ nil, address_line1 \\ nil, 
+					address_line2 \\ nil, address_city \\ nil, address_state \\ nil, 
+					address_postal_code \\ nil, address_country_code \\ nil, 
+					dob_month \\ nil, dob_year \\ nil) do
+
+					body = []
+
+					if name != nil, do: body = Dict.put(body, :name, name)
+					if email != nil, do: body = Dict.put(body, :email, email)
+					if dob_month != nil, do: body = Dict.put(body, :dob_month, dob_month)
+					if dob_year != nil, do: body = Dict.put(body, :dob_year, dob_year)
+
+					if address_line1 != nil or address_line2 != nil or address_city != nil or address_state != nil or
+					address_postal_code != nil or address_country_code != nil do
+						address = []
+
+						if address_line1 != nil, do: address = Dict.put(address, :line1, address_line1)
+						if address_line2 != nil, do: address = Dict.put(address, :line2, address_line2)
+						if address_city != nil, do: address = Dict.put(address, :city, address_city)
+						if address_state != nil, do: address = Dict.put(address, :state, address_state)
+						if address_postal_code != nil, do: address = Dict.put(address, :postal_code, address_postal_code)
+						if address_country_code != nil, do: address = Dict.put(address, :country_code, address_country_code)
+
+						body = Dict.put(body, :address, address)
+					end
+
+					Http.put("#{@endpoint}/#{id}", body)
+				end
+
+				def add_card(id, card_id), do: Http.put("cards/#{card_id}", [customer: "/customers/#{id}"])
+				def add_bank_account(id, bank_account_id), do: Http.put("bank_accounts/#{bank_account_id}", [customer: "/customers/#{id}"])
+			end
+
+			defmodule Debits do
+				@endpoint "debits"
+
+				def get(id), do: Base.get(@endpoint, id)
+				def list(limit \\ 0, offset \\ 0), do: Base.list(@endpoint, limit, offset)
+
+				def update(id, meta \\ nil, description \\ nil) do
+					body = []
+
+					if meta != nil, do: body = Dict.put(body, :meta, meta)
+					if description != nil, do: body = Dict.put(body, :description, description)
+
+					Http.put("#{@endpoint}/#{id}", body)
+				end
+			end
+
+			defmodule Events do
+				@endpoint "events"
+
+				def get(id), do: Base.get(@endpoint, id)
+				def list(limit \\ 0, offset \\ 0), do: Base.list(@endpoint, limit, offset)
+			end
+
+			defmodule Orders do
+				@endpoint "orders"
+
+				def get(id), do: Base.get(@endpoint, id)
+				def list(limit \\ 0, offset \\ 0), do: Base.list(@endpoint, limit, offset)
+
+				def create(customer_id, address_line1 \\ nil, 
+					address_line2 \\ nil, address_city \\ nil, address_state \\ nil, 
+					address_postal_code \\ nil, address_country_code \\ nil, 
+					meta \\ nil, description \\ nil) do
+					body = []
+
+					if meta != nil, do: body = Dict.put(body, :meta, meta)
+					if description != nil, do: body = Dict.put(body, :description, description)
+
+					if address_line1 != nil or address_line2 != nil or address_city != nil or address_state != nil or
+					address_postal_code != nil or address_country_code != nil do
+						address = []
+
+						if address_line1 != nil, do: address = Dict.put(address, :line1, address_line1)
+						if address_line2 != nil, do: address = Dict.put(address, :line2, address_line2)
+						if address_city != nil, do: address = Dict.put(address, :city, address_city)
+						if address_state != nil, do: address = Dict.put(address, :state, address_state)
+						if address_postal_code != nil, do: address = Dict.put(address, :postal_code, address_postal_code)
+						if address_country_code != nil, do: address = Dict.put(address, :country_code, address_country_code)
+
+						body = Dict.put(body, :address, address)
+					end
+
+					Http.post("customers/#{customer_id}/#{@endpoint}", body)
+				end
+
+				def update(id, meta \\ nil, description \\ nil) do
+					body = []
+
+					if meta != nil, do: body = Dict.put(body, :meta, meta)
+					if description != nil, do: body = Dict.put(body, :description, description)
+
+					Http.put("#{@endpoint}/#{id}", body)
+				end
+			end
+
+			defmodule Refunds do
+				@endpoint "refunds"
+
+				def get(id), do: Base.get(@endpoint, id)
+				def list(limit \\ 0, offset \\ 0), do: Base.list(@endpoint, limit, offset)
+
+				def create(debit_id, amount \\ nil, meta \\ nil, description \\ nil) do
+					body = []
+
+					if meta != nil, do: body = Dict.put(body, :meta, meta)
+					if description != nil, do: body = Dict.put(body, :description, description)
+					if amount != nil, do: body = Dict.put(body, :amount, amount)
+
+					Http.post("debits/#{debit_id}/#{@endpoint}", body)
+				end
+
+				def update(id, meta \\ nil, description \\ nil) do
+					body = []
+
+					if meta != nil, do: body = Dict.put(body, :meta, meta)
+					if description != nil, do: body = Dict.put(body, :description, description)
+
+					Http.put("#{@endpoint}/#{id}", body)
+				end
+			end
+
+			defmodule Reversals do
+				@endpoint "reversals"
+
+				def get(id), do: Base.get(@endpoint, id)
+				def list(limit \\ 0, offset \\ 0), do: Base.list(@endpoint, limit, offset)
+
+				def create(credit_id, amount \\ nil) do
+					body = []
+
+					if amount != nil, do: body = Dict.put(body, :amount, amount)
+
+					Http.post("credits/#{credit_id}/#{@endpoint}", body)
+				end
+
+				def update(id, meta \\ nil, description \\ nil) do
+					body = []
+
+					if meta != nil, do: body = Dict.put(body, :meta, meta)
+					if description != nil, do: body = Dict.put(body, :description, description)
+
+					Http.put("#{@endpoint}/#{id}", body)
+				end
+			end
 		end
 	end
 end
