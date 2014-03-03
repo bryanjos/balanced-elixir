@@ -3,9 +3,9 @@ defmodule BalancedElixirTest do
   	use Balanced, secret_key: System.get_env("BALANCED_SECRET_KEY")
 
   	setup_all do
-  		{		:ok, 	
+  		{		:ok,
   				[
-  					bank_account: BankAccounts.create("Jon Doe", "9900000002", "021000021", "checking"), 
+  					bank_account: BankAccounts.create("Jon Doe", "9900000002", "021000021", "checking"),
   					credit_card: Cards.create("4111111111111111", "2016", "12", "123"),
   					customer: Customers.create("Jon Doe", meta: [cool_guy: true])
   				]
@@ -21,6 +21,22 @@ defmodule BalancedElixirTest do
 		s = Http.dict_to_params([])
 		assert(s == "")
 	end
+
+  test "api key crud" do
+    {status, response} = APIKeys.create
+    assert(status == :ok)
+
+    id = hd(response["api_keys"])["id"]
+
+    {status, _} = APIKeys.get(id)
+    assert(status == :ok)
+
+    {status, _} = APIKeys.list()
+    assert(status == :ok)
+
+    {status, _} = APIKeys.delete(id)
+    assert(status == :ok)
+  end
 
 	test "list bank accounts" do
 		{status, _} = BankAccounts.list()
@@ -42,7 +58,7 @@ defmodule BalancedElixirTest do
 		assert(status == :ok)
 	end
 
-	test "Add a Card to a Customer and charge it", context do
+	test "add a Card to a Customer and charge it", context do
 		{status, response} = context[:customer]
 		assert(status == :ok)
 
@@ -85,7 +101,7 @@ defmodule BalancedElixirTest do
 		{status, response} = BankAccounts.get(id)
 		assert(status == :error)
 		assert(hd(response["errors"])["status"]== "Not Found")
-		
+
 		{_, response} = context[:credit_card]
 		id = hd(response["cards"])["id"]
 
@@ -103,6 +119,6 @@ defmodule BalancedElixirTest do
 		{status, _} = Customers.delete(id)
 		assert(status == :error)
 
-		:ok	
+		:ok
   	end
 end
