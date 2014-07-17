@@ -55,7 +55,7 @@ defmodule Balanced do
 
 			  	defp handle_response(response) do
 				   	{_, json_decoded} = JSON.decode(response.body)
-			      	if response.success? do
+			      	if Response.success?(response) do
 				      	{ :ok, json_decoded}
 			      	else
 				        { :error, json_decoded}
