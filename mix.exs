@@ -29,7 +29,7 @@ defmodule Balanced.Mixfile do
       files: ["lib", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
       contributors: ["Bryan Joseph"],
       licenses: ["MIT"],
-      links: [ { "GitHub", "https://github.com/bryanjos/balanced-elixir" }] 
+      links: [ { "GitHub", "https://github.com/bryanjos/balanced-elixir" }]
     ]
   end
 end
