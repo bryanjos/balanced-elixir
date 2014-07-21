@@ -2,59 +2,23 @@ defmodule BalancedElixirTest do
   	use ExUnit.Case, async: true
   	use Balanced, secret_key: System.get_env("BALANCED_SECRET_KEY")
 
-  	setup_all context do
-
-      on_exit context, fn ->
-        {_, response} = context[:bank_account]
-        id = hd(response["bank_accounts"])["id"]
-
-        {status, _} = BankAccounts.delete(id)
-        assert(status == :ok)
-
-        {status, response} = BankAccounts.get(id)
-        assert(status == :error)
-        assert(hd(response["errors"])["status"]== "Not Found")
-
-        {_, response} = context[:credit_card]
-        id = hd(response["cards"])["id"]
-
-        {status, _} = Cards.delete(id)
-        assert(status == :ok)
-
-        {status, response} = Cards.get(id)
-        assert(status == :error)
-        assert(hd(response["errors"])["status"] == "Not Found")
-
-        {_, response} = context[:customer]
-        id = hd(response["customers"])["id"]
-
-        #Cannot delete customers with transactions
-        {status, _} = Customers.delete(id)
-        assert(status == :error)
-
-        :ok
-      end
-
-      {		:ok,
-          [
-            bank_account: BankAccounts.create("Jon Doe", "9900000002", "021000021", "checking"),
-            credit_card: Cards.create("4111111111111111", "2016", "12", "123"),
-            customer: Customers.create("Jon Doe", meta: [cool_guy: true])
-          ]
-      }
-  	end
-
 	test "get param string" do
-		s = Http.dict_to_params([a: 1, b: 2, c: [d: 4]])
+		s = Http.dict_to_params([a: 1, b: 2, c: [d: 4]],"")
 		assert(s == "a=1&b=2&c[d]=4")
 	end
 
 	test "get empty param string" do
-		s = Http.dict_to_params([])
+		s = Http.dict_to_params([], "")
 		assert(s == "")
 	end
 
-  test "api key crud" do
+  test "struct to param string" do
+    bar = %CreateBankAccountRequest{ name: "Jon Doe", account_number: "9900000002", routing_number: "021000021", account_type: "checking" }
+    s = Http.dict_to_params(bar, "")
+    assert(s == "account_number=9900000002&account_type=checking&name=Jon Doe&routing_number=021000021")
+  end
+
+  test "API Keys" do
     {status, response} = APIKeys.create
     assert(status == :ok)
 
@@ -70,56 +34,80 @@ defmodule BalancedElixirTest do
     assert(status == :ok)
   end
 
-	test "list bank accounts" do
+	test "Bank Accounts" do
+    bar = %CreateBankAccountRequest{name: "Jon Doe", account_number: "9900000002", routing_number: "021000021", account_type: "checking"}
+
+    {status, response} = BankAccounts.create(bar)
+    assert(status == :ok)
+
+    id = hd(response["bank_accounts"])["id"]
+
+    {status, _} = BankAccounts.get(id)
+    assert(status == :ok)
+
 		{status, _} = BankAccounts.list()
 		assert(status == :ok)
+
+    {status, _} = BankAccounts.credit(id, %CreditBankAccountRequest{ amount: 1000 })
+    assert(status == :ok)
+
+    {status, _} = BankAccounts.delete(id)
+    assert(status == :ok)
 	end
 
-	test "create and credit a bank account", context do
-		{status, response} = context[:bank_account]
-		assert(status == :ok)
+  test "Credit Cards" do
+    ncc = %CreateCardRequest{ number: "4111111111111111", expiration_year: "2016", expiration_month: "12", cvv: "123" }
+    {status, response} = Cards.create(ncc)
+    assert(status == :ok)
 
-		bank_id = hd(response["bank_accounts"])["id"]
+    id = hd(response["cards"])["id"]
 
-		{status, _} = BankAccounts.credit(bank_id, 1000)
-		assert(status == :ok)
-	end
+    {status, _} = Cards.get(id)
+    assert(status == :ok)
 
-	test "create a card", context do
-		{status, _} = context[:credit_card]
-		assert(status == :ok)
-	end
+    {status, _} = Cards.list()
+    assert(status == :ok)
 
-	test "add a Card to a Customer and charge it", context do
-		{status, response} = context[:customer]
-		assert(status == :ok)
+    nb = %CreateDebitRequest{amount: 500}
+    {status, _} = Cards.debit(id, nb)
+    assert(status == :ok)
 
-		id = hd(response["customers"])["id"]
+    {status, _} = Cards.delete(id)
+    assert(status == :ok)
+  end
 
-		{status, response} = context[:credit_card]
-		assert(status == :ok)
+  test "Customers" do
+    nc = %CreateCustomerRequest{name: "Jon Doe", meta: [cool_guy: true]}
+    {status, response} = Customers.create(nc)
+    assert(status == :ok)
 
-		card_id = hd(response["cards"])["id"]
+    id = hd(response["customers"])["id"]
 
-		{status, _} = Customers.add_card(id, card_id)
-		assert(status == :ok)
+    {status, _} = Customers.get(id)
+    assert(status == :ok)
 
-		{status, _} = Cards.debit(card_id, 1000)
-		assert(status == :ok)
-	end
+    {status, _} = Customers.list()
+    assert(status == :ok)
 
-	test "Add a Bank Account to a Customer", context do
-		{status, response} = context[:customer]
-		assert(status == :ok)
+    uc = %UpdateCustomerRequest{email: "jon@doe.com"}
+    {status, _} = Customers.update(id, uc)
+    assert(status == :ok)
 
-		id = hd(response["customers"])["id"]
+    ncc = %CreateCardRequest{number: "4111111111111111", expiration_year: "2016", expiration_month: "12", cvv: "123"}
+    {_, response} = Cards.create(ncc)
+    card_id = hd(response["cards"])["id"]
 
-		{status, response} = context[:bank_account]
-		assert(status == :ok)
+    {status, _} = Customers.add_card(id, card_id)
+    assert(status == :ok)
 
-		bank_id = hd(response["bank_accounts"])["id"]
+    bar = %CreateBankAccountRequest{name: "Jon Doe", account_number: "9900000002", routing_number: "021000021", account_type: "checking"}
+    {_, response} = BankAccounts.create(bar)
+    bank_id = hd(response["bank_accounts"])["id"]
 
-		{status, _} = Customers.add_bank_account(id, bank_id)
-		assert(status == :ok)
-	end
+    {status, _} = Customers.add_bank_account(id, bank_id)
+    assert(status == :ok)
+
+    {status, _} = Customers.delete(id)
+    assert(status == :ok)
+  end
 end

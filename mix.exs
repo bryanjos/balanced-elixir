@@ -3,8 +3,8 @@ defmodule Balanced.Mixfile do
 
   def project do
     [ app: :balanced,
-      version: "1.1.1",
-      elixir: "~> 0.14.0",
+      version: "1.1.2",
+      elixir: "~> 0.14.3",
       deps: deps,
       source_url: "https://github.com/bryanjos/balanced-elixir"  ]
   end
@@ -16,7 +16,7 @@ defmodule Balanced.Mixfile do
   defp deps do
     [
       {:httpotion, github: "myfreeweb/httpotion"},
-      {:json, github: "cblage/elixir-json"}
+      {:jsex, github: "talentdeficit/jsex"}
     ]
   end
 end
