@@ -20,7 +20,7 @@ defmodule Balanced.Mixfile do
   defp deps do
     [
       {:httpotion, github: "myfreeweb/httpotion"},
-      {:jsex, github: "talentdeficit/jsex"}
+      {:jsex, "~> 2.0.0"}
     ]
   end
 

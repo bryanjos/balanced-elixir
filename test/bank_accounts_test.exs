@@ -31,6 +31,5 @@ defmodule BankAccountsTest do
     id = context[:id]
     {status, _} = Balanced.BankAccounts.credit(id, %Balanced.CreditBankAccountRequest{ amount: 1000 })
     assert(status == :ok)
-
   end
 end
