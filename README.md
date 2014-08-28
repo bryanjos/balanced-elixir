@@ -13,13 +13,15 @@ use the following:
 
 Usage:
 ```
+  #In your config file, add a balanced config options
+  config :balanced, secret_key: "<your_key>", time_out: <timeout, optional, defaults to 7000>
+
 defmodule MyModule do
-  	use Balanced, secret_key: "my-secret", marketplace_id: "my-marketplace"
 
   	def do_stuff() do
       bar = %CreateBankAccountRequest{name: "Jon Doe", account_number: "account_number", routing_number: "routing_number", account_type: "checking"}
-      {status, response} = BankAccounts.create(bar)
-  		BankAccounts.list()
+      {status, response} = Balanced.BankAccounts.create(bar)
+  		Balanced.BankAccounts.list()
   	end
 end
 ```
