@@ -8,7 +8,7 @@ Usage:
 
 use the following:
 ```
-{:balanced, github: "bryanjos/balanced-elixir"}
+{:balanced, "~> 2.0.0"}
 ```
 
 Usage:
