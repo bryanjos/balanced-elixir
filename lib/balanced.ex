@@ -2,7 +2,7 @@ defmodule Balanced do
 	@moduledoc """
 	This module defines the balanced API. Use it as follows
 
-	In your config file, add a balanced config options
+	In your config file, add a line for balanced config options
 	config :balanced, secret_key: "<your_key>", time_out: <timeout, optional, defaults to 7000>
 
 	defmodule MyModule do

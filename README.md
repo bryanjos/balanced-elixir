@@ -13,7 +13,7 @@ use the following:
 
 Usage:
 ```
-  #In your config file, add a balanced config options
+  In your config file, add a line for balanced config options
   config :balanced, secret_key: "<your_key>", time_out: <timeout, optional, defaults to 7000>
 
 defmodule MyModule do
