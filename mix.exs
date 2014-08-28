@@ -5,8 +5,8 @@ defmodule Balanced.Mixfile do
 
   def project do
     [ app: :balanced,
-      version: "1.1.2",
-      elixir: "~> 0.14.3",
+      version: "2.0.0",
+      elixir: "~> 0.15.1",
       deps: deps,
       description: "Balanced API for Elixir",
       package: package,
@@ -14,7 +14,7 @@ defmodule Balanced.Mixfile do
   end
 
   def application do
-    [applications: [:httpotion]]
+    [applications: [:httpotion, :logger]]
   end
 
   defp deps do
