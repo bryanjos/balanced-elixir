@@ -30,8 +30,7 @@ defmodule Balanced.Http do
     end
 
     defp handle_response(response) do
-      Logger.debug("status_code: #{response.status_code}")
-      {_, json_decoded} = JSEX.decode(response.body)
+      {_, json_decoded} = JSX.decode(response.body)
         if Response.success?(response) do
           { :ok, json_decoded}
         else
