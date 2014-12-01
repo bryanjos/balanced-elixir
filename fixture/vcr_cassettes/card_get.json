@@ -1,0 +1,28 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Authorization": "Basic SECRET_KEY",
+        "Accept": "application/vnd.api+json;revision=1.1"
+      },
+      "method": "get",
+      "options": [],
+      "url": "https://api.balancedpayments.com/cards/CC2ggJAxZpx5qn0qJro7ykdL"
+    },
+    "response": {
+      "body": "{\n  \"cards\": [\n    {\n      \"links\": {\n        \"customer\": null\n      },\n      \"fingerprint\": \"2a53c2329b657f896f49e5fe8b9bfe0a70d24522665ac31d57c73cda9ef9b6a8\",\n      \"cvv_result\": \"Match\",\n      \"number\": \"xxxxxxxxxxxx1111\",\n      \"avs_postal_match\": null,\n      \"expiration_month\": 12,\n      \"meta\": {},\n      \"id\": \"CC2ggJAxZpx5qn0qJro7ykdL\",\n      \"category\": \"other\",\n      \"type\": \"credit\",\n      \"cvv_match\": \"yes\",\n      \"bank_name\": \"JPMORGAN CHASE BANK, N.A.\",\n      \"avs_street_match\": null,\n      \"brand\": \"Visa\",\n      \"updated_at\": \"2014-12-01T10:11:43.144703Z\",\n      \"address\": {\n        \"city\": null,\n        \"line2\": null,\n        \"line1\": null,\n        \"state\": null,\n        \"postal_code\": null,\n        \"country_code\": null\n      },\n      \"can_debit\": true,\n      \"name\": null,\n      \"expiration_year\": 2016,\n      \"cvv\": \"xxx\",\n      \"is_verified\": true,\n      \"avs_result\": null,\n      \"can_credit\": false,\n      \"href\": \"/cards/CC2ggJAxZpx5qn0qJro7ykdL\",\n      \"created_at\": \"2014-12-01T10:11:43.144701Z\"\n    }\n  ],\n  \"links\": {\n    \"cards.card_holds\": \"/cards/{cards.id}/card_holds\",\n    \"cards.customer\": \"/customers/{cards.customer}\",\n    \"cards.disputes\": \"/cards/{cards.id}/disputes\",\n    \"cards.debits\": \"/cards/{cards.id}/debits\"\n  }\n}",
+      "headers": {
+        "Content-Type": "application/json",
+        "Date": "Mon, 01 Dec 2014 10:12:52 GMT",
+        "Server": "ngx_openresty/1.2.6.3",
+        "X-Balanced-Revision": "1.1",
+        "X-Balanced-Software-Build": "1.10.15",
+        "Content-Length": "1266",
+        "Connection": "keep-alive"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]

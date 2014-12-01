@@ -5,7 +5,7 @@ defmodule Balanced.Mixfile do
 
   def project do
     [ app: :balanced,
-      version: "2.0.2",
+      version: "2.0.3",
       elixir: "~> 1.0.0",
       deps: deps,
       description: "Balanced API for Elixir",
@@ -19,8 +19,10 @@ defmodule Balanced.Mixfile do
 
   defp deps do
     [
-      {:httpotion, github: "myfreeweb/httpotion"},
-      {:jsex, "~> 2.0.0"}
+      {:ibrowse, github: "cmullaparthi/ibrowse"},
+      {:httpotion, "~> 0.2"},
+      {:jsex, "~> 2.0.0"},
+      {:exvcr, "~> 0.3.5", only: :test}
     ]
   end
 

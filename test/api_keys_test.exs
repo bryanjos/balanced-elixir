@@ -1,30 +1,42 @@
 defmodule APIKeysTest do
-    use ExUnit.Case, async: true
+    use ExUnit.Case, async: false
+    use ExVCR.Mock
 
   setup_all do
-     {:ok, response} = Balanced.APIKeys.create
-
-    id = hd(response["api_keys"])["id"]
-
-     on_exit({:id, id}, fn ->
-        {:ok, _} = Balanced.APIKeys.delete(id)
-    end)
-
-     {:ok, [id: id]}   
+    ExVCR.Config.cassette_library_dir("fixture/vcr_cassettes")
+    ExVCR.Config.filter_sensitive_data("Basic\\s.+", "Basic SECRET_KEY")
+    HTTPotion.start
+ 
+    :ok
   end
 
-  test "get API key", context do
-    id = context[:id]
+  test "create API key" do
+    use_cassette "api_key_create" do
+      {status, response} = Balanced.APIKeys.create
+      assert(status == :ok)
+      id = hd(response["api_keys"])["id"]
+      assert id == "AK1S2NqKVr1LdgTe6LqKdtS0"
+    end
+  end
 
-    {status, _} = Balanced.APIKeys.get(id)
-    assert(status == :ok)
-
+  test "get API key" do
+    use_cassette "api_key_get" do
+      {status, _} = Balanced.APIKeys.get("AK1S2NqKVr1LdgTe6LqKdtS0")
+      assert(status == :ok)
+    end
   end
 
   test "list API keys" do
+    use_cassette "api_key_list" do
+      {status, _} = Balanced.APIKeys.list()
+      assert(status == :ok)
+    end
+  end
 
-    {status, _} = Balanced.APIKeys.list()
-    assert(status == :ok)
-
+  test "delete API key" do
+    use_cassette "api_key_delete" do
+      {status, _} = Balanced.APIKeys.delete("AK1S2NqKVr1LdgTe6LqKdtS0")
+      assert(status == :ok)
+    end
   end
 end

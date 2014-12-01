@@ -1,0 +1,27 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Authorization": "Basic SECRET_KEY",
+        "Accept": "application/vnd.api+json;revision=1.1"
+      },
+      "method": "delete",
+      "options": [],
+      "url": "https://api.balancedpayments.com/customers/CU1BZRIR7amOhVyJDuNFhtAN"
+    },
+    "response": {
+      "body": "",
+      "headers": {
+        "Content-Type": "application/json",
+        "Date": "Mon, 01 Dec 2014 10:24:01 GMT",
+        "Server": "ngx_openresty/1.2.6.3",
+        "X-Balanced-Revision": "1.1",
+        "X-Balanced-Software-Build": "1.10.15",
+        "Connection": "keep-alive"
+      },
+      "status_code": 204,
+      "type": "ok"
+    }
+  }
+]

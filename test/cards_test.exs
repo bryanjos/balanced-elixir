@@ -1,38 +1,54 @@
 defmodule CardsTest do
-    use ExUnit.Case, async: true
+    use ExUnit.Case, async: false
+    use ExVCR.Mock
 
   setup_all do
-    ncc = %Balanced.CreateCardRequest{ number: "4111111111111111", expiration_year: "2016", expiration_month: "12", cvv: "123" }
-    {:ok, response} = Balanced.Cards.create(ncc)
-
-    id = hd(response["cards"])["id"]
-
-     on_exit({:id, id}, fn ->
-        {:ok, _} = Balanced.Cards.delete(id)
-    end)
-
-     {:ok, [id: id, card: ncc]}   
+    ExVCR.Config.cassette_library_dir("fixture/vcr_cassettes")
+    ExVCR.Config.filter_sensitive_data("Basic\\s.+", "Basic SECRET_KEY")
+    HTTPotion.start
+    :ok 
   end
 
-  test "get card", context do
-    id = context[:id]
-    {status, _} = Balanced.Cards.get(id)
-    assert(status == :ok)
+  test "create card" do
+    use_cassette "card_create" do
+      ncc = %Balanced.CreateCardRequest{ number: "4111111111111111", expiration_year: "2016", expiration_month: "12", cvv: "123" }
+      {status, _} = Balanced.Cards.create(ncc)
+      assert(status == :ok)
+    end
+  end
 
+
+  test "get card" do
+    use_cassette "card_get" do
+      id = "CC2ggJAxZpx5qn0qJro7ykdL"
+      {status, _} = Balanced.Cards.get(id)
+      assert(status == :ok)
+    end
   end
 
   test "list cards" do
-
-    {status, _} = Balanced.Cards.list()
-    assert(status == :ok)
-
+    use_cassette "card_list" do
+      {status, _} = Balanced.Cards.list()
+      assert(status == :ok)
+    end
   end
 
-  test "debit card", context do
-    id = context[:id]
-    nb = %Balanced.CreateDebitRequest{amount: 500}
-    {status, _} = Balanced.Cards.debit(id, nb)
-    assert(status == :ok)
-
+  test "debit card" do
+    use_cassette "card_debit" do
+      id = "CC2ggJAxZpx5qn0qJro7ykdL"
+      nb = %Balanced.CreateDebitRequest{amount: 500}
+      {status, _} = Balanced.Cards.debit(id, nb)
+      assert(status == :ok)
+    end
   end
+
+  test "delete card" do
+    use_cassette "card_delete" do
+      id = "CC2ggJAxZpx5qn0qJro7ykdL"
+      {status, _} = Balanced.Cards.delete(id)
+      assert(status == :ok)
+    end
+  end
+
+
 end

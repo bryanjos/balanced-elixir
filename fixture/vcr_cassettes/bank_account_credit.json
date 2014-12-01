@@ -1,0 +1,29 @@
+[
+  {
+    "request": {
+      "body": "amount=1000&[nil]",
+      "headers": {
+        "Authorization": "Basic SECRET_KEY",
+        "Accept": "application/vnd.api+json;revision=1.1",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      "method": "post",
+      "options": [],
+      "url": "https://api.balancedpayments.com/bank_accounts/BA548iQji5hZ4FyckgjLTcTC/credits"
+    },
+    "response": {
+      "body": "{\n  \"credits\": [\n    {\n      \"status\": \"succeeded\",\n      \"description\": null,\n      \"links\": {\n        \"customer\": null,\n        \"destination\": \"BA548iQji5hZ4FyckgjLTcTC\",\n        \"order\": null\n      },\n      \"updated_at\": \"2014-12-01T10:06:46.879712Z\",\n      \"created_at\": \"2014-12-01T10:06:46.530846Z\",\n      \"transaction_number\": \"CRY8F-O6N-2GNI\",\n      \"failure_reason\": null,\n      \"currency\": \"USD\",\n      \"amount\": 1000,\n      \"failure_reason_code\": null,\n      \"meta\": {},\n      \"href\": \"/credits/CR4FJ6IIJlgwreA5bsb4qyGY\",\n      \"appears_on_statement_as\": \"example.com\",\n      \"id\": \"CR4FJ6IIJlgwreA5bsb4qyGY\"\n    }\n  ],\n  \"links\": {\n    \"credits.order\": \"/orders/{credits.order}\",\n    \"credits.customer\": \"/customers/{credits.customer}\",\n    \"credits.destination\": \"/resources/{credits.destination}\",\n    \"credits.reversals\": \"/credits/{credits.id}/reversals\",\n    \"credits.events\": \"/credits/{credits.id}/events\"\n  }\n}",
+      "headers": {
+        "Content-Type": "application/json",
+        "Date": "Mon, 01 Dec 2014 10:05:38 GMT",
+        "Server": "ngx_openresty/1.2.6.3",
+        "X-Balanced-Revision": "1.1",
+        "X-Balanced-Software-Build": "1.10.15",
+        "Content-Length": "930",
+        "Connection": "keep-alive"
+      },
+      "status_code": 201,
+      "type": "ok"
+    }
+  }
+]

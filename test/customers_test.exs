@@ -1,64 +1,51 @@
 defmodule CustomersTest do
-    use ExUnit.Case, async: true
+    use ExUnit.Case, async: false
+    use ExVCR.Mock
 
   setup_all do
-    nc = %Balanced.CreateCustomerRequest{name: "Jon Doe", meta: [cool_guy: true]}
-    {:ok, response} = Balanced.Customers.create(nc)
-
-    id = hd(response["customers"])["id"]
-
-     on_exit({:id, id}, fn ->
-        {:ok, _} = Balanced.Customers.delete(id)
-    end)
-
-     {:ok, [id: id, customer: nc]}   
+    ExVCR.Config.cassette_library_dir("fixture/vcr_cassettes")
+    ExVCR.Config.filter_sensitive_data("Basic\\s.+", "Basic SECRET_KEY")
+    HTTPotion.start
+    :ok  
   end
 
-  test "get customer", context do
-    id = context[:id]
-    {status, _} = Balanced.Customers.get(id)
-    assert(status == :ok)
+  test "create customer" do
+    use_cassette "customer_create" do
+      nc = %Balanced.CreateCustomerRequest{name: "Jon Doe", meta: [cool_guy: true]}
+      {status, _} = Balanced.Customers.create(nc)
+      assert(status == :ok)
+    end
+  end
 
+  test "get customer" do
+    use_cassette "customer_get" do
+      id = "CU1BZRIR7amOhVyJDuNFhtAN"
+      {status, _} = Balanced.Customers.get(id)
+      assert(status == :ok)
+    end
   end
 
   test "list customers" do
-
-    {status, _} = Balanced.Customers.list()
-    assert(status == :ok)
-
+    use_cassette "customer_list" do
+      {status, _} = Balanced.Customers.list()
+      assert(status == :ok)
+    end
   end
 
-  test "credit bank account", context do
-    id = context[:id]
-    {status, _} = Balanced.BankAccounts.credit(id, %Balanced.CreditBankAccountRequest{ amount: 1000 })
-    assert(status == :ok)
+  test "update customer" do
+    use_cassette "customer_update" do
+      id = "CU1BZRIR7amOhVyJDuNFhtAN"
+      uc = %Balanced.UpdateCustomerRequest{email: "jon@doe.com"}
+      {status, _} = Balanced.Customers.update(id, uc)
+      assert(status == :ok)
+    end
   end
 
-  test "update customer", context do
-    id = context[:id]
-    uc = %Balanced.UpdateCustomerRequest{email: "jon@doe.com"}
-    {status, _} = Balanced.Customers.update(id, uc)
-    assert(status == :ok)
-  end
-
-  test "add card to customer", context do
-    id = context[:id]
-    ncc = %Balanced.CreateCardRequest{number: "4111111111111111", expiration_year: "2016", expiration_month: "12", cvv: "123"}
-    {_, response} = Balanced.Cards.create(ncc)
-    card_id = hd(response["cards"])["id"]
-
-    {status, _} = Balanced.Customers.add_card(id, card_id)
-    assert(status == :ok)
-
-  end
-
-  test "add bank account to customer", context do
-    id = context[:id]
-    bar = %Balanced.CreateBankAccountRequest{name: "Jon Doe", account_number: "9900000002", routing_number: "021000021", account_type: "checking"}
-    {_, response} = Balanced.BankAccounts.create(bar)
-    bank_id = hd(response["bank_accounts"])["id"]
-
-    {status, _} = Balanced.Customers.add_bank_account(id, bank_id)
-    assert(status == :ok)
+  test "delete customer" do
+    use_cassette "customer_delete" do
+      id = "CU1BZRIR7amOhVyJDuNFhtAN"
+      {status, _} = Balanced.Customers.delete(id)
+      assert(status == :ok)
+    end
   end
 end
