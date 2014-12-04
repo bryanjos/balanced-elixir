@@ -2,26 +2,31 @@
 
 Balanced API v1.1 Client for Elixir
 
-All calls return either {:ok, response} or {:error, response} where response is a map of the Balanced API response
-
 Usage:
 
 use the following:
-```
-{:balanced, "~> 2.0.0"}
+```elixir
+{:balanced, "~> 3.0.0"}
 ```
 
 Usage:
-```
-  # In your config file, add a line for balanced config options
-  config :balanced, secret_key: "<your_key>", time_out: <timeout, optional, defaults to 7000>
+```elixir
+#looks for an environment variable named BALANCED_SECRET_KEY
+{:ok, balanced} = Balanced.new
 
-defmodule MyModule do
+#alternatively, you can pass in the secret key as well
+{:ok, balanced} = Balanced.new("my_secret_key") 
 
-  	def do_stuff() do
-      bar = %CreateBankAccountRequest{name: "Jon Doe", account_number: "account_number", routing_number: "routing_number", account_type: "checking"}
-      {status, response} = Balanced.BankAccounts.create(bar)
-  		Balanced.BankAccounts.list()
-  	end
-end
+#then pass in the balanced pid when calling functions
+{status, response} = Balanced.BankAccounts.get(balanced, bank_account_id)
 ```
+
+status is either :ok or :error
+
+response is a Map converted from the json response from Balanced.
+
+Info about the contents can be found at [http://docs.balancedpayments.com/1.1/api/](http://docs.balancedpayments.com/1.1/api/)
+
+All calls return either {:ok, response} or {:error, response} where response is a map of the Balanced API response
+
+

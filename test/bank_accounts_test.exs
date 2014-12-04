@@ -6,44 +6,45 @@ defmodule BankAccountsTest do
     ExVCR.Config.cassette_library_dir("fixture/vcr_cassettes")
     ExVCR.Config.filter_sensitive_data("Basic\\s.+", "Basic SECRET_KEY")
     HTTPotion.start
-    :ok   
+    {:ok, balanced } = Balanced.new("secret_key")
+    {:ok, [balanced: balanced] }
   end
 
-  test "create bank account" do
+  test "create bank account", context do
     use_cassette "bank_account_create" do
-      bar = %Balanced.CreateBankAccountRequest{name: "Jon Doe", account_number: "9900000002", routing_number: "021000021", account_type: "checking"}
-      {status, _} = Balanced.BankAccounts.create(bar)
+      bar = %Balanced.CreateBankAccount{name: "Jon Doe", account_number: "9900000002", routing_number: "021000021", account_type: "checking"}
+      {status, _} = Balanced.BankAccounts.create(context[:balanced], bar)
       assert(status == :ok)
     end
   end
 
-  test "get bank account" do
+  test "get bank account", context do
     use_cassette "bank_account_get" do
       id = "BA548iQji5hZ4FyckgjLTcTC"
-      {status, _} = Balanced.BankAccounts.get(id)
+      {status, _} = Balanced.BankAccounts.get(context[:balanced], id)
       assert(status == :ok)
     end
   end
 
-  test "list bank accounts" do
+  test "list bank accounts", context do
     use_cassette "bank_account_list" do
-      {status, _} = Balanced.BankAccounts.list()
+      {status, _} = Balanced.BankAccounts.list(context[:balanced])
       assert(status == :ok)
     end
   end
 
-  test "credit bank account" do
+  test "credit bank account", context do
     use_cassette "bank_account_credit" do
       id = "BA548iQji5hZ4FyckgjLTcTC"
-      {status, _} = Balanced.BankAccounts.credit(id, %Balanced.CreditBankAccountRequest{ amount: 1000 })
+      {status, _} = Balanced.BankAccounts.credit(context[:balanced], id, %Balanced.CreditBankAccount{ amount: 1000 })
       assert(status == :ok)
     end
   end
 
-  test "delete bank account" do
+  test "delete bank account", context do
     use_cassette "bank_account_delete" do
       id = "BA548iQji5hZ4FyckgjLTcTC"
-      {status, _} = Balanced.BankAccounts.delete(id)
+      {status, _} = Balanced.BankAccounts.delete(context[:balanced], id)
       assert(status == :ok)
     end
   end
