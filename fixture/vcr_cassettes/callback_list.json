@@ -1,0 +1,24 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Authorization": "Basic SECRET_KEY",
+        "Accept": "application/vnd.api+json;revision=1.1"
+      },
+      "method": "get",
+      "options": [],
+      "url": "https://api.balancedpayments.com/callbacks?limit=10&offset=0"
+    },
+    "response": {
+      "body": "{\n  \"callbacks\": [\n    {\n      \"links\": {},\n      \"url\": \"http://www.example.com/callback2\",\n      \"method\": \"get\",\n      \"href\": \"/callbacks/CB728dfzz26831IQ2CGv6kkt\",\n      \"id\": \"CB728dfzz26831IQ2CGv6kkt\",\n      \"revision\": \"1.1\"\n    },\n    {\n      \"links\": {},\n      \"url\": \"http://www.example.com/callback1\",\n      \"method\": \"get\",\n      \"href\": \"/callbacks/CB4JIlrLi5TnCNicnnhr82wE\",\n      \"id\": \"CB4JIlrLi5TnCNicnnhr82wE\",\n      \"revision\": \"1.1\"\n    },\n    {\n      \"links\": {},\n      \"url\": \"http://www.example.com/callback\",\n      \"method\": \"get\",\n      \"href\": \"/callbacks/CB24CHwNNLxGL6IVjKHVdoKQ\",\n      \"id\": \"CB24CHwNNLxGL6IVjKHVdoKQ\",\n      \"revision\": \"1.1\"\n    }\n  ],\n  \"meta\": {\n    \"last\": \"/callbacks?limit=10&offset=0\",\n    \"next\": null,\n    \"href\": \"/callbacks?limit=10&offset=0\",\n    \"limit\": 10,\n    \"offset\": 0,\n    \"previous\": null,\n    \"total\": 3,\n    \"first\": \"/callbacks?limit=10&offset=0\"\n  },\n  \"links\": {}\n}",
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "939",
+        "Connection": "keep-alive"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]

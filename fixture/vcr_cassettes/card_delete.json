@@ -1,6 +1,32 @@
 [
   {
     "request": {
+      "body": "cvv=123&expiration_month=12&expiration_year=2016&number=4111111111111111",
+      "headers": {
+        "Authorization": "Basic SECRET_KEY",
+        "Accept": "application/vnd.api+json;revision=1.1",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      "method": "post",
+      "options": [],
+      "url": "https://api.balancedpayments.com/cards"
+    },
+    "response": {
+      "body": "{\n  \"cards\": [\n    {\n      \"links\": {\n        \"customer\": null\n      },\n      \"fingerprint\": \"2a53c2329b657f896f49e5fe8b9bfe0a70d24522665ac31d57c73cda9ef9b6a8\",\n      \"cvv_result\": \"Match\",\n      \"number\": \"xxxxxxxxxxxx1111\",\n      \"avs_postal_match\": null,\n      \"expiration_month\": 12,\n      \"meta\": {},\n      \"id\": \"CC1RlUkvD4yhyO76w8i19UR7\",\n      \"category\": \"other\",\n      \"type\": \"credit\",\n      \"cvv_match\": \"yes\",\n      \"bank_name\": \"JPMORGAN CHASE BANK, N.A.\",\n      \"avs_street_match\": null,\n      \"brand\": \"Visa\",\n      \"updated_at\": \"2014-12-05T17:52:02.649204Z\",\n      \"address\": {\n        \"city\": null,\n        \"line2\": null,\n        \"line1\": null,\n        \"state\": null,\n        \"postal_code\": null,\n        \"country_code\": null\n      },\n      \"can_debit\": true,\n      \"name\": null,\n      \"expiration_year\": 2016,\n      \"cvv\": \"xxx\",\n      \"is_verified\": true,\n      \"avs_result\": null,\n      \"can_credit\": false,\n      \"href\": \"/cards/CC1RlUkvD4yhyO76w8i19UR7\",\n      \"created_at\": \"2014-12-05T17:52:02.649203Z\"\n    }\n  ],\n  \"links\": {\n    \"cards.card_holds\": \"/cards/{cards.id}/card_holds\",\n    \"cards.customer\": \"/customers/{cards.customer}\",\n    \"cards.disputes\": \"/cards/{cards.id}/disputes\",\n    \"cards.debits\": \"/cards/{cards.id}/debits\"\n  }\n}",
+      "headers": {
+        "access-control-allow-headers": "Content-Type",
+        "access-control-allow-methods": "POST, OPTIONS",
+        "access-control-allow-origin": "*",
+        "Content-Type": "application/json",
+        "Content-Length": "1266",
+        "Connection": "keep-alive"
+      },
+      "status_code": 201,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
       "body": "",
       "headers": {
         "Authorization": "Basic SECRET_KEY",
@@ -8,17 +34,13 @@
       },
       "method": "delete",
       "options": [],
-      "url": "https://api.balancedpayments.com/cards/CC2ggJAxZpx5qn0qJro7ykdL"
+      "url": "https://api.balancedpayments.com/cards/CC1RlUkvD4yhyO76w8i19UR7"
     },
     "response": {
       "body": "",
       "headers": {
         "Content-length": "0",
         "Content-Type": "application/json",
-        "Date": "Mon, 01 Dec 2014 10:14:12 GMT",
-        "Server": "ngx_openresty/1.2.6.3",
-        "X-Balanced-Revision": "1.1",
-        "X-Balanced-Software-Build": "1.10.15",
         "Connection": "keep-alive"
       },
       "status_code": 204,

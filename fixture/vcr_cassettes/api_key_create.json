@@ -12,14 +12,10 @@
       "url": "https://api.balancedpayments.com/api_keys"
     },
     "response": {
-      "body": "{\n  \"links\": {},\n  \"api_keys\": [\n    {\n      \"links\": {},\n      \"created_at\": \"2014-12-01T09:49:53.079353Z\",\n      \"secret\": \"ak-test-secret\",\n      \"href\": \"/api_keys/AK1S2NqKVr1LdgTe6LqKdtS0\",\n      \"meta\": {},\n      \"id\": \"AK1S2NqKVr1LdgTe6LqKdtS0\"\n    }\n  ]\n}",
+      "body": "{\n  \"links\": {},\n  \"api_keys\": [\n    {\n      \"links\": {},\n      \"created_at\": \"2014-12-05T19:31:42.272671Z\",\n      \"secret\": \"ak-test-2pLL3KVNZI5mtPoUuq0hsPqj6d4e1NX3A\",\n      \"href\": \"/api_keys/AK1fHGgHHNnoyNL3P2Pw2Bqg\",\n      \"meta\": {},\n      \"id\": \"AK1fHGgHHNnoyNL3P2Pw2Bqg\"\n    }\n  ]\n}",
       "headers": {
         "Content-Type": "application/json",
-        "Date": "Mon, 01 Dec 2014 09:48:45 GMT",
-        "Server": "ngx_openresty/1.2.6.3",
-        "x-balanced-revision": "1.1",
-        "x-balanced-software-build": "1.10.15",
-        "Content-Length": "289",
+        "Content-Length": "290",
         "Connection": "keep-alive"
       },
       "status_code": 201,

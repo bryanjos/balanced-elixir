@@ -6,45 +6,41 @@ defmodule CustomersTest do
     ExVCR.Config.cassette_library_dir("fixture/vcr_cassettes")
     ExVCR.Config.filter_sensitive_data("Basic\\s.+", "Basic SECRET_KEY")
     HTTPotion.start
-    :ok  
+    {:ok, balanced } = Balanced.new(Application.get_env(:balanced, :secret_key, "secret_key"))
+    {:ok, [balanced: balanced, test_customer: %Balanced.Customer{name: "Jon Doe", meta: %{ cool_guy: true }}] }
   end
 
-  test "create customer" do
+  test "create customer", context do
     use_cassette "customer_create" do
-      nc = %Balanced.CreateCustomerRequest{name: "Jon Doe", meta: [cool_guy: true]}
-      {status, _} = Balanced.Customers.create(nc)
+      {status, _} = Balanced.API.Customers.create(context[:balanced], context[:test_customer])
       assert(status == :ok)
     end
   end
 
-  test "get customer" do
+  test "get customer", context do
     use_cassette "customer_get" do
-      id = "CU1BZRIR7amOhVyJDuNFhtAN"
-      {status, _} = Balanced.Customers.get(id)
+      {status, response} = Balanced.API.Customers.create(context[:balanced], context[:test_customer])
+      id = hd(response.customers).id
+
+      {status, _} = Balanced.API.Customers.get(context[:balanced], id)
       assert(status == :ok)
     end
   end
 
-  test "list customers" do
+  test "list customers", context do
     use_cassette "customer_list" do
-      {status, _} = Balanced.Customers.list()
+      {status, _} = Balanced.API.Customers.list(context[:balanced])
       assert(status == :ok)
     end
   end
 
-  test "update customer" do
+  test "update customer", context do
     use_cassette "customer_update" do
-      id = "CU1BZRIR7amOhVyJDuNFhtAN"
-      uc = %Balanced.UpdateCustomerRequest{email: "jon@doe.com"}
-      {status, _} = Balanced.Customers.update(id, uc)
-      assert(status == :ok)
-    end
-  end
+      {status, response} = Balanced.API.Customers.create(context[:balanced], context[:test_customer])
+      id = hd(response.customers).id
 
-  test "delete customer" do
-    use_cassette "customer_delete" do
-      id = "CU1BZRIR7amOhVyJDuNFhtAN"
-      {status, _} = Balanced.Customers.delete(id)
+      uc = %Balanced.Customer{email: "jon@doe.com"}
+      {status, _} = Balanced.API.Customers.update(context[:balanced], id, uc)
       assert(status == :ok)
     end
   end

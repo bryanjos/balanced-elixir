@@ -5,7 +5,7 @@ defmodule Balanced.Mixfile do
 
   def project do
     [ app: :balanced,
-      version: "2.0.4",
+      version: "3.0.0",
       elixir: "~> 1.0.0",
       deps: deps,
       description: "Balanced API for Elixir",
@@ -14,15 +14,17 @@ defmodule Balanced.Mixfile do
   end
 
   def application do
-    [applications: [:httpotion, :logger, :jsx]]
+    [applications: [:httpotion, :logger, :poison]]
   end
 
   defp deps do
     [
       {:ibrowse, github: "cmullaparthi/ibrowse"},
       {:httpotion, "~> 0.2"},
-      {:jsx, "~> 2.1.1"},
-      {:exvcr, "~> 0.3.5", only: :test}
+      {:poison, "~> 1.2.1"},
+      {:exvcr, "~> 0.3.5", only: :test},
+      {:earmark, "~> 0.1", only: :dev},
+      {:ex_doc, "~> 0.6", only: :dev}
     ]
   end
 

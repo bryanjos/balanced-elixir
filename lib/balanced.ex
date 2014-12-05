@@ -1,78 +1,57 @@
 defmodule Balanced do
+	use GenServer
+
+  @type status :: :ok | :error
+  @type response :: {status, map}
+
 	@moduledoc """
 	This module defines the balanced API. Use it as follows
 
-	In your config file, add a line for balanced config options
-	config :balanced, secret_key: "<your_key>", time_out: <timeout, optional, defaults to 7000>
+	#looks for an environment variable named `BALANCED_SECRET_KEY`
 
-	defmodule MyModule do
+	{:ok, balanced} = Balanced.new
 
-		def get_bank_account(bank_account_id) do
+	#alternatively, you can pass in the secret key as well
 
-			Balanced.BankAccounts.get(bank_account_id)
+	{:ok, balanced} = Balanced.new("`my_secret_key`")	
 
-		end
-	end
+	#then pass in the balanced pid when calling functions
 
-	All calls to any functions will return either:
+	{status, response} = Balanced.BankAccounts.get(balanced, `bank_account_id`)
 
-		* {:ok, response} - Success
+	status is either :ok or :error
 
-		* {:error, response} - Error
+	response is a Map converted from the json response from Balanced.
 
-	Where response and error are Maps returned from Balanced.
 	Info about the contents can be found at http://docs.balancedpayments.com/1.1/api/
 	"""
-
-	defmodule Address do
-		defstruct line1: nil, line2: nil, city: nil, state: nil, postal_code: nil, country_code: nil
+	def new(secret_key) do
+		start_link(%{secret_key: secret_key})
 	end
 
-	defmodule CreateDebitRequest do
-		defstruct amount: nil, appears_on_statement_as: nil, source: nil, order: nil
+	def new() do
+		start_link(%{secret_key: System.get_env("BALANCED_SECRET_KEY")})
 	end
 
-	defmodule UpdateBankAccountRequest do
-		defstruct meta: nil, links: nil
+	def start_link(config) do
+		GenServer.start_link(__MODULE__, config)
 	end
 
-	defmodule CreateBankAccountRequest do
-		defstruct name: nil, account_number: nil, routing_number: nil, account_type: nil, address: %Address{}
+	def secret_key(balanced) do
+		configuration(balanced).secret_key
 	end
 
-	defmodule CreditBankAccountRequest do
-		defstruct amount: nil, description: nil, order: nil
+	@doc false
+	def configuration(balanced) do
+		GenServer.call(balanced, :get_configuration)
 	end
 
-	defmodule ConfirmBankAccountRequest do
-		defstruct amount_1: nil, amount_2: nil
+	def init(config) do
+		{:ok, config}
 	end
 
-	defmodule CreateCardRequest do
-		defstruct number: nil, expiration_year: nil, expiration_month: nil, cvv: nil, name: nil, address: %Address{}
-	end
-
-	defmodule UpdateCardRequest do
-		defstruct meta: nil, links: nil
-	end
-
-	defmodule UpdateResourceRequest do
-		defstruct meta: nil, description: nil
-	end
-
-	defmodule CreateCustomerRequest do
-		defstruct name: nil, email: nil, meta: nil, ssn_last4: nil, business_name: nil, address: %Address{}, phone: nil, dob_month: nil, dob_year: nil, ein: nil, source: nil
-	end
-
-	defmodule UpdateCustomerRequest do
-		defstruct name: nil, email: nil, address: %Address{}, dob_month: nil, dob_year: nil
-	end
-
-	defmodule CreateOrderRequest do
-		defstruct address: %Address{}, meta: nil, description: nil
-	end
-
-	defmodule CreateRefundRequest do
-		defstruct amount: nil, meta: nil, description: nil
+	@doc false
+	def handle_call(:get_configuration, _from, config) do
+		{:reply, config, config}
 	end
 end

@@ -1,0 +1,28 @@
+[
+  {
+    "request": {
+      "body": "account_type=checking&name=Jon Doe&routing_number=021000021",
+      "headers": {
+        "Authorization": "Basic SECRET_KEY",
+        "Accept": "application/vnd.api+json;revision=1.1",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      "method": "post",
+      "options": [],
+      "url": "https://api.balancedpayments.com/bank_accounts"
+    },
+    "response": {
+      "body": "{\n  \"errors\": [\n    {\n      \"status\": \"Bad Request\",\n      \"category_code\": \"request\",\n      \"additional\": null,\n      \"status_code\": 400,\n      \"category_type\": \"request\",\n      \"extras\": {\n        \"account_number\": \"Missing required field [account_number]\"\n      },\n      \"request_id\": \"OHM1e8d2a947ca611e4b94402a1fe52a36c\",\n      \"description\": \"Missing required field [account_number] Your request id is OHM1e8d2a947ca611e4b94402a1fe52a36c.\"\n    }\n  ]\n}",
+      "headers": {
+        "access-control-allow-headers": "Content-Type",
+        "access-control-allow-methods": "POST, OPTIONS",
+        "access-control-allow-origin": "*",
+        "Content-Type": "application/json",
+        "Content-Length": "457",
+        "Connection": "keep-alive"
+      },
+      "status_code": 400,
+      "type": "ok"
+    }
+  }
+]

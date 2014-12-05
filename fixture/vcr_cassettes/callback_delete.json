@@ -1,0 +1,47 @@
+[
+  {
+    "request": {
+      "body": "method=get&url=http://www.example.com/callback3",
+      "headers": {
+        "Authorization": "Basic SECRET_KEY",
+        "Accept": "application/vnd.api+json;revision=1.1",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      "method": "post",
+      "options": [],
+      "url": "https://api.balancedpayments.com/callbacks"
+    },
+    "response": {
+      "body": "{\n  \"callbacks\": [\n    {\n      \"links\": {},\n      \"url\": \"http://www.example.com/callback3\",\n      \"method\": \"get\",\n      \"href\": \"/callbacks/CB7JW1yk0fSVEClwNgfQ8rLi\",\n      \"id\": \"CB7JW1yk0fSVEClwNgfQ8rLi\",\n      \"revision\": \"1.1\"\n    }\n  ],\n  \"links\": {}\n}",
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "259",
+        "Connection": "keep-alive"
+      },
+      "status_code": 201,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Authorization": "Basic SECRET_KEY",
+        "Accept": "application/vnd.api+json;revision=1.1"
+      },
+      "method": "delete",
+      "options": [],
+      "url": "https://api.balancedpayments.com/callbacks/CB7JW1yk0fSVEClwNgfQ8rLi"
+    },
+    "response": {
+      "body": "",
+      "headers": {
+        "Content-length": "0",
+        "Content-Type": "application/json",
+        "Connection": "keep-alive"
+      },
+      "status_code": 204,
+      "type": "ok"
+    }
+  }
+]

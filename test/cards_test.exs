@@ -6,46 +6,52 @@ defmodule CardsTest do
     ExVCR.Config.cassette_library_dir("fixture/vcr_cassettes")
     ExVCR.Config.filter_sensitive_data("Basic\\s.+", "Basic SECRET_KEY")
     HTTPotion.start
-    :ok 
+    {:ok, balanced } = Balanced.new(Application.get_env(:balanced, :secret_key, "secret_key"))
+    {:ok, [balanced: balanced, test_card: %Balanced.Card{ number: "4111111111111111", expiration_year: "2016", expiration_month: "12", cvv: "123" }] }
   end
 
-  test "create card" do
+  test "create card", context do
     use_cassette "card_create" do
-      ncc = %Balanced.CreateCardRequest{ number: "4111111111111111", expiration_year: "2016", expiration_month: "12", cvv: "123" }
-      {status, _} = Balanced.Cards.create(ncc)
+      {status, _} = Balanced.API.Cards.create(context[:balanced], context[:test_card])
       assert(status == :ok)
     end
   end
 
 
-  test "get card" do
+  test "get card", context do
     use_cassette "card_get" do
-      id = "CC2ggJAxZpx5qn0qJro7ykdL"
-      {status, _} = Balanced.Cards.get(id)
+      {status, response} = Balanced.API.Cards.create(context[:balanced], context[:test_card])
+      id = hd(response.cards).id
+
+      {status, _} = Balanced.API.Cards.get(context[:balanced], id)
       assert(status == :ok)
     end
   end
 
-  test "list cards" do
+  test "list cards", context do
     use_cassette "card_list" do
-      {status, _} = Balanced.Cards.list()
+      {status, _} = Balanced.API.Cards.list(context[:balanced])
       assert(status == :ok)
     end
   end
 
-  test "debit card" do
+  test "debit card", context do
     use_cassette "card_debit" do
-      id = "CC2ggJAxZpx5qn0qJro7ykdL"
-      nb = %Balanced.CreateDebitRequest{amount: 500}
-      {status, _} = Balanced.Cards.debit(id, nb)
+      {status, response} = Balanced.API.Cards.create(context[:balanced], context[:test_card])
+      id = hd(response.cards).id
+
+      nb = %Balanced.Debit{amount: 500}
+      {status, _} = Balanced.API.Cards.debit(context[:balanced], id, nb)
       assert(status == :ok)
     end
   end
 
-  test "delete card" do
+  test "delete card", context do
     use_cassette "card_delete" do
-      id = "CC2ggJAxZpx5qn0qJro7ykdL"
-      {status, _} = Balanced.Cards.delete(id)
+      {status, response} = Balanced.API.Cards.create(context[:balanced], context[:test_card])
+      id = hd(response.cards).id
+      
+      {status, _} = Balanced.API.Cards.delete(context[:balanced], id)
       assert(status == :ok)
     end
   end

@@ -1,7 +1,7 @@
 [
   {
     "request": {
-      "body": "amount=1000&[nil]",
+      "body": "account_number=9900000002&account_type=checking&name=Jon Doe&routing_number=021000021",
       "headers": {
         "Authorization": "Basic SECRET_KEY",
         "Accept": "application/vnd.api+json;revision=1.1",
@@ -9,20 +9,42 @@
       },
       "method": "post",
       "options": [],
-      "url": "https://api.balancedpayments.com/bank_accounts/BA548iQji5hZ4FyckgjLTcTC/credits"
+      "url": "https://api.balancedpayments.com/bank_accounts"
     },
     "response": {
-      "body": "{\n  \"credits\": [\n    {\n      \"status\": \"succeeded\",\n      \"description\": null,\n      \"links\": {\n        \"customer\": null,\n        \"destination\": \"BA548iQji5hZ4FyckgjLTcTC\",\n        \"order\": null\n      },\n      \"updated_at\": \"2014-12-01T10:06:46.879712Z\",\n      \"created_at\": \"2014-12-01T10:06:46.530846Z\",\n      \"transaction_number\": \"CRY8F-O6N-2GNI\",\n      \"failure_reason\": null,\n      \"currency\": \"USD\",\n      \"amount\": 1000,\n      \"failure_reason_code\": null,\n      \"meta\": {},\n      \"href\": \"/credits/CR4FJ6IIJlgwreA5bsb4qyGY\",\n      \"appears_on_statement_as\": \"example.com\",\n      \"id\": \"CR4FJ6IIJlgwreA5bsb4qyGY\"\n    }\n  ],\n  \"links\": {\n    \"credits.order\": \"/orders/{credits.order}\",\n    \"credits.customer\": \"/customers/{credits.customer}\",\n    \"credits.destination\": \"/resources/{credits.destination}\",\n    \"credits.reversals\": \"/credits/{credits.id}/reversals\",\n    \"credits.events\": \"/credits/{credits.id}/events\"\n  }\n}",
+      "body": "{\n  \"bank_accounts\": [\n    {\n      \"routing_number\": \"021000021\",\n      \"bank_name\": \"JPMORGAN CHASE BANK\",\n      \"account_type\": \"checking\",\n      \"name\": \"Jon Doe\",\n      \"links\": {\n        \"customer\": null,\n        \"bank_account_verification\": null\n      },\n      \"can_credit\": true,\n      \"created_at\": \"2014-12-05T17:43:58.819506Z\",\n      \"fingerprint\": \"2ef53fa3f76e47c5930f77fe0a59aa103b5abfd5622f08305b786808ec574a1e\",\n      \"updated_at\": \"2014-12-05T17:43:58.819508Z\",\n      \"href\": \"/bank_accounts/BASfKn04JERWkDRfWZNRvKo\",\n      \"meta\": {},\n      \"account_number\": \"xxxxxx0002\",\n      \"address\": {\n        \"city\": null,\n        \"line2\": null,\n        \"line1\": null,\n        \"state\": null,\n        \"postal_code\": null,\n        \"country_code\": null\n      },\n      \"can_debit\": false,\n      \"id\": \"BASfKn04JERWkDRfWZNRvKo\"\n    }\n  ],\n  \"links\": {\n    \"bank_accounts.credits\": \"/bank_accounts/{bank_accounts.id}/credits\",\n    \"bank_accounts.bank_account_verifications\": \"/bank_accounts/{bank_accounts.id}/verifications\",\n    \"bank_accounts.customer\": \"/customers/{bank_accounts.customer}\",\n    \"bank_accounts.debits\": \"/bank_accounts/{bank_accounts.id}/debits\",\n    \"bank_accounts.bank_account_verification\": \"/verifications/{bank_accounts.bank_account_verification}\"\n  }\n}",
       "headers": {
+        "access-control-allow-headers": "Content-Type",
+        "access-control-allow-methods": "POST, OPTIONS",
+        "access-control-allow-origin": "*",
         "Content-Type": "application/json",
-        "Date": "Mon, 01 Dec 2014 10:05:38 GMT",
-        "Server": "ngx_openresty/1.2.6.3",
-        "X-Balanced-Revision": "1.1",
-        "X-Balanced-Software-Build": "1.10.15",
-        "Content-Length": "930",
+        "Content-Length": "1280",
         "Connection": "keep-alive"
       },
       "status_code": 201,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "amount=1000",
+      "headers": {
+        "Authorization": "Basic SECRET_KEY",
+        "Accept": "application/vnd.api+json;revision=1.1",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      "method": "post",
+      "options": [],
+      "url": "https://api.balancedpayments.com/bank_accounts/BASfKn04JERWkDRfWZNRvKo/credits"
+    },
+    "response": {
+      "body": "{\n  \"credits\": [\n    {\n      \"status\": \"failed\",\n      \"description\": null,\n      \"links\": {\n        \"customer\": null,\n        \"destination\": \"BASfKn04JERWkDRfWZNRvKo\",\n        \"order\": null\n      },\n      \"updated_at\": \"2014-12-05T17:43:59.719085Z\",\n      \"created_at\": \"2014-12-05T17:43:59.687976Z\",\n      \"transaction_number\": \"CRVET-BC6-POLB\",\n      \"failure_reason\": \"Marketplace TEST-MP430d9pIYV8CSMGiAx4o7rj has insufficient funds to cover a transfer of 1000.\",\n      \"currency\": \"USD\",\n      \"amount\": 1000,\n      \"failure_reason_code\": \"insufficient-funds\",\n      \"meta\": {},\n      \"href\": \"/credits/CRTdNDwivsY7mY2aZN4KAx2\",\n      \"appears_on_statement_as\": \"example.com\",\n      \"id\": \"CRTdNDwivsY7mY2aZN4KAx2\"\n    }\n  ],\n  \"errors\": [\n    {\n      \"status\": \"Conflict\",\n      \"category_code\": \"insufficient-funds\",\n      \"additional\": null,\n      \"status_code\": 409,\n      \"category_type\": \"logical\",\n      \"extras\": {},\n      \"request_id\": \"OHM1d3a41ae7ca611e49dde06429171ffad\",\n      \"description\": \"Marketplace TEST-MP430d9pIYV8CSMGiAx4o7rj has insufficient funds to cover a transfer of 1000. Your request id is OHM1d3a41ae7ca611e49dde06429171ffad.\"\n    }\n  ],\n  \"links\": {\n    \"credits.order\": \"/orders/{credits.order}\",\n    \"credits.customer\": \"/customers/{credits.customer}\",\n    \"credits.destination\": \"/resources/{credits.destination}\",\n    \"credits.reversals\": \"/credits/{credits.id}/reversals\",\n    \"credits.events\": \"/credits/{credits.id}/events\"\n  }\n}",
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "1473",
+        "Connection": "keep-alive"
+      },
+      "status_code": 409,
       "type": "ok"
     }
   }

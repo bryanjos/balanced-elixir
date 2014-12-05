@@ -4,21 +4,40 @@
       "body": "",
       "headers": {
         "Authorization": "Basic SECRET_KEY",
+        "Accept": "application/vnd.api+json;revision=1.1",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      "method": "post",
+      "options": [],
+      "url": "https://api.balancedpayments.com/api_keys"
+    },
+    "response": {
+      "body": "{\n  \"links\": {},\n  \"api_keys\": [\n    {\n      \"links\": {},\n      \"created_at\": \"2014-12-05T17:38:01.268226Z\",\n      \"secret\": \"ak-test-2nNIKcurqPlAbzKQOCWN1yjXWDuIvVQA5\",\n      \"href\": \"/api_keys/AK2bbEA5O4OXE6aG6NSMjxR3\",\n      \"meta\": {},\n      \"id\": \"AK2bbEA5O4OXE6aG6NSMjxR3\"\n    }\n  ]\n}",
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "290",
+        "Connection": "keep-alive"
+      },
+      "status_code": 201,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Authorization": "Basic SECRET_KEY",
         "Accept": "application/vnd.api+json;revision=1.1"
       },
       "method": "delete",
       "options": [],
-      "url": "https://api.balancedpayments.com/api_keys/AK1S2NqKVr1LdgTe6LqKdtS0"
+      "url": "https://api.balancedpayments.com/api_keys/AK2bbEA5O4OXE6aG6NSMjxR3"
     },
     "response": {
       "body": "",
       "headers": {
         "Content-length": "0",
         "Content-Type": "application/json",
-        "Date": "Mon, 01 Dec 2014 09:45:50 GMT",
-        "Server": "ngx_openresty/1.2.6.3",
-        "X-Balanced-Revision": "1.1",
-        "X-Balanced-Software-Build": "1.10.15",
         "Connection": "keep-alive"
       },
       "status_code": 204,

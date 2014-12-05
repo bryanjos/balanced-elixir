@@ -4,20 +4,39 @@
       "body": "",
       "headers": {
         "Authorization": "Basic SECRET_KEY",
+        "Accept": "application/vnd.api+json;revision=1.1",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      "method": "post",
+      "options": [],
+      "url": "https://api.balancedpayments.com/api_keys"
+    },
+    "response": {
+      "body": "{\n  \"links\": {},\n  \"api_keys\": [\n    {\n      \"links\": {},\n      \"created_at\": \"2014-12-05T17:38:03.274586Z\",\n      \"secret\": \"ak-test-rpLMaDjquibcd7BkH6cmDoK3YlW5Te8c\",\n      \"href\": \"/api_keys/AK2dreubkvDoqyW2qLip4VvG\",\n      \"meta\": {},\n      \"id\": \"AK2dreubkvDoqyW2qLip4VvG\"\n    }\n  ]\n}",
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "289",
+        "Connection": "keep-alive"
+      },
+      "status_code": 201,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Authorization": "Basic SECRET_KEY",
         "Accept": "application/vnd.api+json;revision=1.1"
       },
       "method": "get",
       "options": [],
-      "url": "https://api.balancedpayments.com/api_keys/AK1S2NqKVr1LdgTe6LqKdtS0"
+      "url": "https://api.balancedpayments.com/api_keys/AK2dreubkvDoqyW2qLip4VvG"
     },
     "response": {
-      "body": "{\n  \"links\": {},\n  \"api_keys\": [\n    {\n      \"href\": \"/api_keys/AK1S2NqKVr1LdgTe6LqKdtS0\",\n      \"created_at\": \"2014-12-01T09:49:53.079353Z\",\n      \"meta\": {},\n      \"id\": \"AK1S2NqKVr1LdgTe6LqKdtS0\",\n      \"links\": {}\n    }\n  ]\n}",
+      "body": "{\n  \"links\": {},\n  \"api_keys\": [\n    {\n      \"href\": \"/api_keys/AK2dreubkvDoqyW2qLip4VvG\",\n      \"created_at\": \"2014-12-05T17:38:03.274586Z\",\n      \"meta\": {},\n      \"id\": \"AK2dreubkvDoqyW2qLip4VvG\",\n      \"links\": {}\n    }\n  ]\n}",
       "headers": {
         "Content-Type": "application/json",
-        "Date": "Mon, 01 Dec 2014 09:49:20 GMT",
-        "Server": "ngx_openresty/1.2.6.3",
-        "X-Balanced-Revision": "1.1",
-        "X-Balanced-Software-Build": "1.10.15",
         "Content-Length": "229",
         "Connection": "keep-alive"
       },
