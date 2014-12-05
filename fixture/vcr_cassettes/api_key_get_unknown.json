@@ -11,13 +11,9 @@
       "url": "https://api.balancedpayments.com/api_keys/1"
     },
     "response": {
-      "body": "{\n  \"errors\": [\n    {\n      \"status\": \"Not Found\",\n      \"category_code\": \"not-found\",\n      \"description\": \"<p>The requested URL was not found on the server.</p><p>If you entered the URL manually please check your spelling and try again.</p> Your request id is OHMc8c6d07e7c1e11e4940e0230f00c9248.\",\n      \"status_code\": 404,\n      \"category_type\": \"request\",\n      \"request_id\": \"OHMc8c6d07e7c1e11e4940e0230f00c9248\"\n    }\n  ]\n}",
+      "body": "{\n  \"errors\": [\n    {\n      \"status\": \"Not Found\",\n      \"category_code\": \"not-found\",\n      \"description\": \"<p>The requested URL was not found on the server.</p><p>If you entered the URL manually please check your spelling and try again.</p> Your request id is OHM5e9dd9ae7ca511e494d406429171ffad.\",\n      \"status_code\": 404,\n      \"category_type\": \"request\",\n      \"request_id\": \"OHM5e9dd9ae7ca511e494d406429171ffad\"\n    }\n  ]\n}",
       "headers": {
         "Content-Type": "application/json",
-        "Date": "Fri, 05 Dec 2014 01:33:58 GMT",
-        "Server": "ngx_openresty/1.2.6.3",
-        "X-Balanced-Revision": "1.1",
-        "X-Balanced-Software-Build": "1.10.18",
         "Content-Length": "430",
         "Connection": "keep-alive"
       },

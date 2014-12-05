@@ -1,6 +1,8 @@
 defmodule Balanced.API.Base do
   alias Balanced.API.Http
 
+  @moduledoc false
+
   def get(balanced, endpoint, id, struct, collection_name) do 
     Http.get(balanced, "#{endpoint}/#{id}")
     |> to_response(struct, collection_name)
@@ -38,18 +40,15 @@ defmodule Balanced.API.Base do
     {status, nil}
   end
 
-  def to_response({:ok, response}, struct, collection_name) do
-    { :ok, decode_response(response, collection_name, struct) }
-  end
-
-  def to_response({:error, response}, _, _) do
-    { :error, decode_response(response, "errors", Balanced.Error) }
+  def to_response({status, response}, struct, collection_name) do
+    { status, decode_response(response, collection_name, struct) }
   end
 
   defp decode_response(response, collection_name, struct) do
       map_prototype = Map.new() 
       |> Map.put(collection_name, [struct]) 
       |> Map.put("links", [Map])
+      |> Map.put("errors", [Balanced.Error])
 
       Poison.decode!(response, keys: :atoms, as: map_prototype)
   end

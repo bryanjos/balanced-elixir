@@ -2,7 +2,7 @@ defmodule Balanced.API.Credits do
   alias Balanced.API.Base
 
   @endpoint "credits"
-  @struct Balanced.Credit
+  @data_struct Balanced.Credit
   @collection_name String.to_atom(@endpoint)
 
   @doc """
@@ -10,7 +10,7 @@ defmodule Balanced.API.Credits do
   """
   @spec get(pid, binary) :: Balanced.response
   def get(balanced, id) do
-    Base.get(balanced, @endpoint, id, @struct, @collection_name)
+    Base.get(balanced, @endpoint, id, @data_struct, @collection_name)
   end
 
   @doc """
@@ -18,7 +18,7 @@ defmodule Balanced.API.Credits do
   """
   @spec list(pid, number, number) :: Balanced.response
   def list(balanced, limit \\ 10, offset \\ 0) do
-    Base.list(balanced, @endpoint, limit, offset, @struct, @collection_name)
+    Base.list(balanced, @endpoint, limit, offset, @data_struct, @collection_name)
   end
 
   @doc """
@@ -26,7 +26,7 @@ defmodule Balanced.API.Credits do
   """
   @spec update(pid, binary, binary, map) :: Balanced.response
   def update(balanced, id, description, meta) do
-    Base.post(balanced, "#{@endpoint}/#{id}", %{description: description, meta: meta}, @struct, @collection_name)
+    Base.post(balanced, "#{@endpoint}/#{id}", %{description: description, meta: meta}, @data_struct, @collection_name)
   end
 
 end

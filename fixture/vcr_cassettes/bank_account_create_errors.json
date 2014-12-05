@@ -12,16 +12,12 @@
       "url": "https://api.balancedpayments.com/bank_accounts"
     },
     "response": {
-      "body": "{\n  \"errors\": [\n    {\n      \"status\": \"Bad Request\",\n      \"category_code\": \"request\",\n      \"additional\": null,\n      \"status_code\": 400,\n      \"category_type\": \"request\",\n      \"extras\": {\n        \"account_number\": \"Missing required field [account_number]\"\n      },\n      \"request_id\": \"OHMb36562a87c1f11e49ed502a1fe53e539\",\n      \"description\": \"Missing required field [account_number] Your request id is OHMb36562a87c1f11e49ed502a1fe53e539.\"\n    }\n  ]\n}",
+      "body": "{\n  \"errors\": [\n    {\n      \"status\": \"Bad Request\",\n      \"category_code\": \"request\",\n      \"additional\": null,\n      \"status_code\": 400,\n      \"category_type\": \"request\",\n      \"extras\": {\n        \"account_number\": \"Missing required field [account_number]\"\n      },\n      \"request_id\": \"OHM1e8d2a947ca611e4b94402a1fe52a36c\",\n      \"description\": \"Missing required field [account_number] Your request id is OHM1e8d2a947ca611e4b94402a1fe52a36c.\"\n    }\n  ]\n}",
       "headers": {
         "access-control-allow-headers": "Content-Type",
         "access-control-allow-methods": "POST, OPTIONS",
         "access-control-allow-origin": "*",
         "Content-Type": "application/json",
-        "Date": "Fri, 05 Dec 2014 01:40:32 GMT",
-        "Server": "ngx_openresty/1.2.6.3",
-        "x-balanced-revision": "1.1",
-        "x-balanced-software-build": "1.10.18",
         "Content-Length": "457",
         "Connection": "keep-alive"
       },

@@ -41,6 +41,7 @@ defmodule Balanced do
 		configuration(balanced).secret_key
 	end
 
+	@doc false
 	def configuration(balanced) do
 		GenServer.call(balanced, :get_configuration)
 	end
@@ -49,6 +50,7 @@ defmodule Balanced do
 		{:ok, config}
 	end
 
+	@doc false
 	def handle_call(:get_configuration, _from, config) do
 		{:reply, config, config}
 	end

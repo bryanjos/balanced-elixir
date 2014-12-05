@@ -1,7 +1,7 @@
 [
   {
     "request": {
-      "body": "meta[cool_guy]=true&name=Jon Doe&[nil]",
+      "body": "meta[cool_guy]=true&name=Jon Doe",
       "headers": {
         "Authorization": "Basic SECRET_KEY",
         "Accept": "application/vnd.api+json;revision=1.1",
@@ -12,13 +12,9 @@
       "url": "https://api.balancedpayments.com/customers"
     },
     "response": {
-      "body": "{\n  \"customers\": [\n    {\n      \"name\": \"Jon Doe\",\n      \"links\": {\n        \"source\": null,\n        \"destination\": null\n      },\n      \"updated_at\": \"2014-12-01T10:18:17.002066Z\",\n      \"created_at\": \"2014-12-01T10:18:16.842088Z\",\n      \"dob_month\": null,\n      \"id\": \"CU1BZRIR7amOhVyJDuNFhtAN\",\n      \"phone\": null,\n      \"href\": \"/customers/CU1BZRIR7amOhVyJDuNFhtAN\",\n      \"merchant_status\": \"no-match\",\n      \"meta\": {\n        \"cool_guy\": \"true\"\n      },\n      \"dob_year\": null,\n      \"address\": {\n        \"city\": null,\n        \"line2\": null,\n        \"line1\": null,\n        \"state\": null,\n        \"postal_code\": null,\n        \"country_code\": null\n      },\n      \"business_name\": null,\n      \"ssn_last4\": null,\n      \"email\": null,\n      \"ein\": null\n    }\n  ],\n  \"links\": {\n    \"customers.source\": \"/resources/{customers.source}\",\n    \"customers.card_holds\": \"/customers/{customers.id}/card_holds\",\n    \"customers.bank_accounts\": \"/customers/{customers.id}/bank_accounts\",\n    \"customers.debits\": \"/customers/{customers.id}/debits\",\n    \"customers.destination\": \"/resources/{customers.destination}\",\n    \"customers.external_accounts\": \"/customers/{customers.id}/external_accounts\",\n    \"customers.cards\": \"/customers/{customers.id}/cards\",\n    \"customers.disputes\": \"/customers/{customers.id}/disputes\",\n    \"customers.transactions\": \"/customers/{customers.id}/transactions\",\n    \"customers.refunds\": \"/customers/{customers.id}/refunds\",\n    \"customers.reversals\": \"/customers/{customers.id}/reversals\",\n    \"customers.orders\": \"/customers/{customers.id}/orders\",\n    \"customers.credits\": \"/customers/{customers.id}/credits\",\n    \"customers.accounts\": \"/customers/{customers.id}/accounts\"\n  }\n}",
+      "body": "{\n  \"customers\": [\n    {\n      \"name\": \"Jon Doe\",\n      \"links\": {\n        \"source\": null,\n        \"destination\": null\n      },\n      \"updated_at\": \"2014-12-05T18:10:59.421737Z\",\n      \"created_at\": \"2014-12-05T18:10:59.293250Z\",\n      \"dob_month\": null,\n      \"id\": \"CU6TBfbWAJSRoXUwp7Gueljy\",\n      \"phone\": null,\n      \"href\": \"/customers/CU6TBfbWAJSRoXUwp7Gueljy\",\n      \"merchant_status\": \"no-match\",\n      \"meta\": {\n        \"cool_guy\": \"true\"\n      },\n      \"dob_year\": null,\n      \"address\": {\n        \"city\": null,\n        \"line2\": null,\n        \"line1\": null,\n        \"state\": null,\n        \"postal_code\": null,\n        \"country_code\": null\n      },\n      \"business_name\": null,\n      \"ssn_last4\": null,\n      \"email\": null,\n      \"ein\": null\n    }\n  ],\n  \"links\": {\n    \"customers.source\": \"/resources/{customers.source}\",\n    \"customers.card_holds\": \"/customers/{customers.id}/card_holds\",\n    \"customers.bank_accounts\": \"/customers/{customers.id}/bank_accounts\",\n    \"customers.debits\": \"/customers/{customers.id}/debits\",\n    \"customers.destination\": \"/resources/{customers.destination}\",\n    \"customers.external_accounts\": \"/customers/{customers.id}/external_accounts\",\n    \"customers.cards\": \"/customers/{customers.id}/cards\",\n    \"customers.disputes\": \"/customers/{customers.id}/disputes\",\n    \"customers.transactions\": \"/customers/{customers.id}/transactions\",\n    \"customers.refunds\": \"/customers/{customers.id}/refunds\",\n    \"customers.reversals\": \"/customers/{customers.id}/reversals\",\n    \"customers.orders\": \"/customers/{customers.id}/orders\",\n    \"customers.credits\": \"/customers/{customers.id}/credits\",\n    \"customers.accounts\": \"/customers/{customers.id}/accounts\"\n  }\n}",
       "headers": {
         "Content-Type": "application/json",
-        "Date": "Mon, 01 Dec 2014 10:17:08 GMT",
-        "Server": "ngx_openresty/1.2.6.3",
-        "x-balanced-revision": "1.1",
-        "x-balanced-software-build": "1.10.15",
         "Content-Length": "1696",
         "Connection": "keep-alive"
       },

@@ -12,16 +12,16 @@ defmodule APIKeysTest do
 
   test "create API key", context do
     use_cassette "api_key_create" do
-      {status, response} = Balanced.API.APIKeys.create(context[:balanced])
-      assert(status == :ok)
-      id = hd(response.api_keys).id
-      assert id == "AK1S2NqKVr1LdgTe6LqKdtS0"
+      {status, _} = Balanced.API.APIKeys.create(context[:balanced])
+      assert status == :ok
     end
   end
 
   test "get API key", context do
     use_cassette "api_key_get" do
-      {status, _} = Balanced.API.APIKeys.get(context[:balanced], "AK1S2NqKVr1LdgTe6LqKdtS0")
+      {:ok, response} = Balanced.API.APIKeys.create(context[:balanced])
+      id = hd(response.api_keys).id
+      {status, _} = Balanced.API.APIKeys.get(context[:balanced], id)
       assert status == :ok
     end
   end
@@ -44,7 +44,9 @@ defmodule APIKeysTest do
 
   test "delete API key", context do
     use_cassette "api_key_delete" do
-      {status, _} = Balanced.API.APIKeys.delete(context[:balanced], "AK1S2NqKVr1LdgTe6LqKdtS0")
+      {:ok, response} = Balanced.API.APIKeys.create(context[:balanced])
+      id = hd(response.api_keys).id
+      {status, _} = Balanced.API.APIKeys.delete(context[:balanced], id)
       assert status == :ok
     end
   end

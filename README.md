@@ -9,6 +9,8 @@ use the following:
 {:balanced, "~> 3.0.0"}
 ```
 
+[Documentation](http://hexdocs.pm/balanced-elixir)
+
 Usage:
 ```elixir
 #looks for an environment variable named BALANCED_SECRET_KEY
@@ -25,7 +27,7 @@ status is either :ok or :error
 
 response is a Map converted from the json response from Balanced.
 
-Info about the contents can be found at [http://docs.balancedpayments.com/1.1/api/](http://docs.balancedpayments.com/1.1/api/)
+Information about the balanced api can be found at [http://docs.balancedpayments.com/1.1/api/](http://docs.balancedpayments.com/1.1/api/)
 
 All calls return either {:ok, response} or {:error, response} where response is a map of the Balanced API response
 

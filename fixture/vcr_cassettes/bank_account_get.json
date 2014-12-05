@@ -1,6 +1,32 @@
 [
   {
     "request": {
+      "body": "account_number=9900000002&account_type=checking&name=Jon Doe&routing_number=021000021",
+      "headers": {
+        "Authorization": "Basic SECRET_KEY",
+        "Accept": "application/vnd.api+json;revision=1.1",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      "method": "post",
+      "options": [],
+      "url": "https://api.balancedpayments.com/bank_accounts"
+    },
+    "response": {
+      "body": "{\n  \"bank_accounts\": [\n    {\n      \"routing_number\": \"021000021\",\n      \"bank_name\": \"JPMORGAN CHASE BANK\",\n      \"account_type\": \"checking\",\n      \"name\": \"Jon Doe\",\n      \"links\": {\n        \"customer\": null,\n        \"bank_account_verification\": null\n      },\n      \"can_credit\": true,\n      \"created_at\": \"2014-12-05T17:43:57.496825Z\",\n      \"fingerprint\": \"2ef53fa3f76e47c5930f77fe0a59aa103b5abfd5622f08305b786808ec574a1e\",\n      \"updated_at\": \"2014-12-05T17:43:57.496827Z\",\n      \"href\": \"/bank_accounts/BAQLJHC50VJyWokFrFrmYdf\",\n      \"meta\": {},\n      \"account_number\": \"xxxxxx0002\",\n      \"address\": {\n        \"city\": null,\n        \"line2\": null,\n        \"line1\": null,\n        \"state\": null,\n        \"postal_code\": null,\n        \"country_code\": null\n      },\n      \"can_debit\": false,\n      \"id\": \"BAQLJHC50VJyWokFrFrmYdf\"\n    }\n  ],\n  \"links\": {\n    \"bank_accounts.credits\": \"/bank_accounts/{bank_accounts.id}/credits\",\n    \"bank_accounts.bank_account_verifications\": \"/bank_accounts/{bank_accounts.id}/verifications\",\n    \"bank_accounts.customer\": \"/customers/{bank_accounts.customer}\",\n    \"bank_accounts.debits\": \"/bank_accounts/{bank_accounts.id}/debits\",\n    \"bank_accounts.bank_account_verification\": \"/verifications/{bank_accounts.bank_account_verification}\"\n  }\n}",
+      "headers": {
+        "access-control-allow-headers": "Content-Type",
+        "access-control-allow-methods": "POST, OPTIONS",
+        "access-control-allow-origin": "*",
+        "Content-Type": "application/json",
+        "Content-Length": "1280",
+        "Connection": "keep-alive"
+      },
+      "status_code": 201,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
       "body": "",
       "headers": {
         "Authorization": "Basic SECRET_KEY",
@@ -8,17 +34,13 @@
       },
       "method": "get",
       "options": [],
-      "url": "https://api.balancedpayments.com/bank_accounts/BA548iQji5hZ4FyckgjLTcTC"
+      "url": "https://api.balancedpayments.com/bank_accounts/BAQLJHC50VJyWokFrFrmYdf"
     },
     "response": {
-      "body": "{\n  \"bank_accounts\": [\n    {\n      \"routing_number\": \"021000021\",\n      \"bank_name\": \"JPMORGAN CHASE BANK\",\n      \"account_type\": \"checking\",\n      \"name\": \"Jon Doe\",\n      \"links\": {\n        \"customer\": null,\n        \"bank_account_verification\": null\n      },\n      \"can_credit\": true,\n      \"created_at\": \"2014-12-01T09:59:58.715312Z\",\n      \"fingerprint\": \"2ef53fa3f76e47c5930f77fe0a59aa103b5abfd5622f08305b786808ec574a1e\",\n      \"updated_at\": \"2014-12-01T09:59:58.715313Z\",\n      \"href\": \"/bank_accounts/BA548iQji5hZ4FyckgjLTcTC\",\n      \"meta\": {},\n      \"account_number\": \"xxxxxx0002\",\n      \"address\": {\n        \"city\": null,\n        \"line2\": null,\n        \"line1\": null,\n        \"state\": null,\n        \"postal_code\": null,\n        \"country_code\": null\n      },\n      \"can_debit\": false,\n      \"id\": \"BA548iQji5hZ4FyckgjLTcTC\"\n    }\n  ],\n  \"links\": {\n    \"bank_accounts.credits\": \"/bank_accounts/{bank_accounts.id}/credits\",\n    \"bank_accounts.bank_account_verifications\": \"/bank_accounts/{bank_accounts.id}/verifications\",\n    \"bank_accounts.customer\": \"/customers/{bank_accounts.customer}\",\n    \"bank_accounts.debits\": \"/bank_accounts/{bank_accounts.id}/debits\",\n    \"bank_accounts.bank_account_verification\": \"/verifications/{bank_accounts.bank_account_verification}\"\n  }\n}",
+      "body": "{\n  \"bank_accounts\": [\n    {\n      \"routing_number\": \"021000021\",\n      \"bank_name\": \"JPMORGAN CHASE BANK\",\n      \"account_type\": \"checking\",\n      \"name\": \"Jon Doe\",\n      \"links\": {\n        \"customer\": null,\n        \"bank_account_verification\": null\n      },\n      \"can_credit\": true,\n      \"created_at\": \"2014-12-05T17:43:57.496825Z\",\n      \"fingerprint\": \"2ef53fa3f76e47c5930f77fe0a59aa103b5abfd5622f08305b786808ec574a1e\",\n      \"updated_at\": \"2014-12-05T17:43:57.496827Z\",\n      \"href\": \"/bank_accounts/BAQLJHC50VJyWokFrFrmYdf\",\n      \"meta\": {},\n      \"account_number\": \"xxxxxx0002\",\n      \"address\": {\n        \"city\": null,\n        \"line2\": null,\n        \"line1\": null,\n        \"state\": null,\n        \"postal_code\": null,\n        \"country_code\": null\n      },\n      \"can_debit\": false,\n      \"id\": \"BAQLJHC50VJyWokFrFrmYdf\"\n    }\n  ],\n  \"links\": {\n    \"bank_accounts.credits\": \"/bank_accounts/{bank_accounts.id}/credits\",\n    \"bank_accounts.bank_account_verifications\": \"/bank_accounts/{bank_accounts.id}/verifications\",\n    \"bank_accounts.customer\": \"/customers/{bank_accounts.customer}\",\n    \"bank_accounts.debits\": \"/bank_accounts/{bank_accounts.id}/debits\",\n    \"bank_accounts.bank_account_verification\": \"/verifications/{bank_accounts.bank_account_verification}\"\n  }\n}",
       "headers": {
         "Content-Type": "application/json",
-        "Date": "Mon, 01 Dec 2014 10:01:42 GMT",
-        "Server": "ngx_openresty/1.2.6.3",
-        "X-Balanced-Revision": "1.1",
-        "X-Balanced-Software-Build": "1.10.15",
-        "Content-Length": "1282",
+        "Content-Length": "1280",
         "Connection": "keep-alive"
       },
       "status_code": 200,

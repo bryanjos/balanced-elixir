@@ -2,7 +2,7 @@ defmodule Balanced.API.Customers do
   alias Balanced.API.Base
   
   @endpoint "customers"
-  @struct Balanced.Customer
+  @data_struct Balanced.Customer
   @collection_name String.to_atom(@endpoint)
 
   @doc """
@@ -10,15 +10,15 @@ defmodule Balanced.API.Customers do
   """
   @spec get(pid, binary) :: Balanced.response
   def get(balanced, id) do
-    Base.get(balanced, @endpoint, id, @struct, @collection_name)
+    Base.get(balanced, @endpoint, id, @data_struct, @collection_name)
   end
 
   @doc """
   Lists customers
   """
   @spec list(pid, number, number) :: Balanced.response
-  def list(balanced, limit \\ 0, offset \\ 0) do
-    Base.list(balanced, @endpoint, limit, offset, @struct, @collection_name)
+  def list(balanced, limit \\ 10, offset \\ 0) do
+    Base.list(balanced, @endpoint, limit, offset, @data_struct, @collection_name)
   end
 
   @doc """
@@ -26,23 +26,23 @@ defmodule Balanced.API.Customers do
   """
   @spec delete(pid, binary) :: Balanced.response
   def delete(balanced, id) do
-    Base.delete(balanced, @endpoint, id, @struct, @collection_name)
+    Base.delete(balanced, @endpoint, id, @data_struct, @collection_name)
   end
 
   @doc """
   Creates a customer
   """
-  @spec create(pid, @struct.t) :: Balanced.response
+  @spec create(pid, @data_struct.t) :: Balanced.response
   def create(balanced, customer) do
-    Base.post(balanced, @endpoint, customer, @struct, @collection_name)
+    Base.post(balanced, @endpoint, customer, @data_struct, @collection_name)
   end
 
   @doc """
   Updates a customer
   """
-  @spec update(pid, binary, @struct.t) :: Balanced.response
+  @spec update(pid, binary, @data_struct.t) :: Balanced.response
   def update(balanced, id, customer) do
-    Base.put(balanced, "#{@endpoint}/#{id}", customer, @struct, @collection_name)
+    Base.put(balanced, "#{@endpoint}/#{id}", customer, @data_struct, @collection_name)
   end
 
   @doc """

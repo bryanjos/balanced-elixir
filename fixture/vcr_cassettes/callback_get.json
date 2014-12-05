@@ -1,0 +1,47 @@
+[
+  {
+    "request": {
+      "body": "method=get&url=http://www.example.com/callback2",
+      "headers": {
+        "Authorization": "Basic SECRET_KEY",
+        "Accept": "application/vnd.api+json;revision=1.1",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      "method": "post",
+      "options": [],
+      "url": "https://api.balancedpayments.com/callbacks"
+    },
+    "response": {
+      "body": "{\n  \"callbacks\": [\n    {\n      \"links\": {},\n      \"url\": \"http://www.example.com/callback2\",\n      \"method\": \"get\",\n      \"href\": \"/callbacks/CB728dfzz26831IQ2CGv6kkt\",\n      \"id\": \"CB728dfzz26831IQ2CGv6kkt\",\n      \"revision\": \"1.1\"\n    }\n  ],\n  \"links\": {}\n}",
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "259",
+        "Connection": "keep-alive"
+      },
+      "status_code": 201,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Authorization": "Basic SECRET_KEY",
+        "Accept": "application/vnd.api+json;revision=1.1"
+      },
+      "method": "get",
+      "options": [],
+      "url": "https://api.balancedpayments.com/callbacks/CB728dfzz26831IQ2CGv6kkt"
+    },
+    "response": {
+      "body": "{\n  \"callbacks\": [\n    {\n      \"links\": {},\n      \"url\": \"http://www.example.com/callback2\",\n      \"method\": \"get\",\n      \"href\": \"/callbacks/CB728dfzz26831IQ2CGv6kkt\",\n      \"id\": \"CB728dfzz26831IQ2CGv6kkt\",\n      \"revision\": \"1.1\"\n    }\n  ],\n  \"links\": {}\n}",
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "259",
+        "Connection": "keep-alive"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]

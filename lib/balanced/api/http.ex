@@ -1,28 +1,30 @@
 defmodule Balanced.API.Http do
+  @moduledoc false
   @form_header  ["Content-Type": "application/x-www-form-urlencoded"]
   @url "https://api.balancedpayments.com/"
+  @options [timeout: 10000]
 
   def get(balanced, endpoint) do
       headers = get_headers(balanced)
-      HTTPotion.get(@url <> endpoint, headers) 
+      HTTPotion.get(@url <> endpoint, headers, options: @options) 
       |> handle_response
     end
 
   def post(balanced, endpoint, body \\ []) do
       headers = get_headers(balanced) |> Enum.concat(@form_header)
-      HTTPotion.post(@url <> endpoint, encode_params(body), headers) 
+      HTTPotion.post(@url <> endpoint, encode_params(body), headers, options: @options) 
       |> handle_response
     end
 
   def put(balanced, endpoint, body \\ []) do
       headers = get_headers(balanced) |> Enum.concat(@form_header)
-      HTTPotion.put(@url <> endpoint, encode_params(body), headers) 
+      HTTPotion.put(@url <> endpoint, encode_params(body), headers, options: @options) 
       |> handle_response
     end
 
   def delete(balanced, endpoint) do
       headers = get_headers(balanced)
-      HTTPotion.delete(@url <> endpoint, headers) 
+      HTTPotion.delete(@url <> endpoint, headers, options: @options) 
       |> handle_response
     end
 
@@ -50,7 +52,7 @@ defmodule Balanced.API.Http do
       |> Enum.join("&")
     end
 
-    def get_param_string({_, nil}, _)do
+    def get_param_string({_, nil}, _) do
       nil
     end
 
