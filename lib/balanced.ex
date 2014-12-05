@@ -52,24 +52,4 @@ defmodule Balanced do
 	def handle_call(:get_configuration, _from, config) do
 		{:reply, config, config}
 	end
-
-	defmodule UpdateResource do
-		defstruct meta: nil, description: nil
-	end
-
-	defmodule CreateCustomer do
-		defstruct name: nil, email: nil, meta: nil, ssn_last4: nil, business_name: nil, address: %Address{}, phone: nil, dob_month: nil, dob_year: nil, ein: nil, source: nil
-	end
-
-	defmodule UpdateCustomer do
-		defstruct name: nil, email: nil, address: %Address{}, dob_month: nil, dob_year: nil
-	end
-
-	defmodule CreateOrder do
-		defstruct address: %Address{}, meta: nil, description: nil
-	end
-
-	defmodule CreateRefund do
-		defstruct amount: nil, meta: nil, description: nil
-	end
 end

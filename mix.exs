@@ -14,14 +14,14 @@ defmodule Balanced.Mixfile do
   end
 
   def application do
-    [applications: [:httpotion, :logger, :jsx]]
+    [applications: [:httpotion, :logger, :poison]]
   end
 
   defp deps do
     [
       {:ibrowse, github: "cmullaparthi/ibrowse"},
       {:httpotion, "~> 0.2"},
-      {:jsx, "~> 2.1.1"},
+      {:poison, "~> 1.2.1"},
       {:exvcr, "~> 0.3.5", only: :test}
     ]
   end

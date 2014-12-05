@@ -11,6 +11,7 @@ defmodule Balanced.API.Callbacks do
   @spec create(pid, binary, method) :: Balanced.response
   def create(balanced, url, method) do
     Http.post(balanced, @endpoint, %{ url: url, method: Atom.to_string(method) })
+    |> Balanced.API.to_response(Balanced.Callback, String.to_atom(@endpoint))
   end
 
   @doc """
@@ -19,6 +20,7 @@ defmodule Balanced.API.Callbacks do
   @spec get(pid, binary) :: Balanced.response
   def get(balanced, id) do
     Base.get(balanced, @endpoint, id)
+    |> Balanced.API.to_response(Balanced.Callback, String.to_atom(@endpoint))
   end
 
   @doc """
@@ -27,6 +29,7 @@ defmodule Balanced.API.Callbacks do
   @spec list(pid, number, number) :: Balanced.response
   def list(balanced, limit \\ 10, offset \\ 0) do
     Base.list(balanced, @endpoint, limit, offset)
+    |> Balanced.API.to_response(Balanced.Callback, String.to_atom(@endpoint))
   end
 
   @doc """

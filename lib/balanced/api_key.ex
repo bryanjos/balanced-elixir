@@ -9,10 +9,12 @@ defmodule Balanced.APIKey do
     secret: binary
   }
 
-  defstruct created_at: nil, 
-            href: nil, 
-            id: nil, 
-            links: %{},
-            meta: %{}, 
-            secret: nil
+  defstruct [
+    :created_at, 
+    :href, 
+    :id, 
+    :links,
+    :meta, 
+    :secret
+  ]
 end

@@ -1,11 +1,11 @@
 defmodule Balanced.API.Base do
 
   def get(balanced, endpoint, id) do 
-    Balanced.Http.get(balanced, "#{endpoint}/#{id}")
+    Balanced.API.Http.get(balanced, "#{endpoint}/#{id}")
   end
 
   def delete(balanced, endpoint, id) do
-    Balanced.Http.delete(balanced, "#{endpoint}/#{id}")
+    Balanced.API.Http.delete(balanced, "#{endpoint}/#{id}")
   end
 
   def list(balanced, endpoint, limit \\ 0, offset \\ 0) do
@@ -19,7 +19,7 @@ defmodule Balanced.API.Base do
       end
     end
 
-    Balanced.Http.get(balanced, ep)
+    Balanced.API.Http.get(balanced, ep)
   end
 
 end

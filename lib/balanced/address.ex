@@ -7,10 +7,12 @@ defmodule Balanced.Address do
     postal_code: binary, 
     country_code: binary
   }
-  defstruct line1: nil, 
-            line2: nil, 
-            city: nil, 
-            state: nil, 
-            postal_code: nil, 
-            country_code: nil
+  defstruct [
+    :line1, 
+    :line2, 
+    :city, 
+    :state, 
+    :postal_code, 
+    :country_code
+  ]
 end

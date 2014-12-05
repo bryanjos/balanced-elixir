@@ -9,6 +9,7 @@ defmodule Balanced.API.APIKeys do
   @spec create(pid) :: Balanced.response
   def create(balanced) do 
     Http.post(balanced, @endpoint)
+    |> Balanced.API.to_response(Balanced.APIKey, String.to_atom(@endpoint))
   end
 
   @doc """
@@ -17,6 +18,7 @@ defmodule Balanced.API.APIKeys do
   @spec get(pid, binary) :: Balanced.response
   def get(balanced, id) do 
     Base.get(balanced, @endpoint, id)
+    |> Balanced.API.to_response(Balanced.APIKey, String.to_atom(@endpoint))
   end
 
   @doc """
@@ -25,6 +27,7 @@ defmodule Balanced.API.APIKeys do
   @spec list(pid, number, number) :: Balanced.response
   def list(balanced, limit \\ 0, offset \\ 0) do 
     Base.list(balanced, @endpoint, limit, offset)
+    |> Balanced.API.to_response(Balanced.APIKey, String.to_atom(@endpoint))
   end
 
   @doc """
