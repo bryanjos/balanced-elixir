@@ -1,15 +1,16 @@
 defmodule Balanced.API.Customers do
-  use Balanced.API
+  alias Balanced.API.Base
   
   @endpoint "customers"
+  @struct Balanced.Customer
+  @collection_name String.to_atom(@endpoint)
 
   @doc """
   Gets a customer
   """
   @spec get(pid, binary) :: Balanced.response
   def get(balanced, id) do
-    Base.get(balanced, @endpoint, id)
-    |> Balanced.API.to_response(Balanced.Customer, String.to_atom(@endpoint))
+    Base.get(balanced, @endpoint, id, @struct, @collection_name)
   end
 
   @doc """
@@ -17,8 +18,7 @@ defmodule Balanced.API.Customers do
   """
   @spec list(pid, number, number) :: Balanced.response
   def list(balanced, limit \\ 0, offset \\ 0) do
-    Base.list(balanced, @endpoint, limit, offset)
-    |> Balanced.API.to_response(Balanced.Customer, String.to_atom(@endpoint))
+    Base.list(balanced, @endpoint, limit, offset, @struct, @collection_name)
   end
 
   @doc """
@@ -26,25 +26,23 @@ defmodule Balanced.API.Customers do
   """
   @spec delete(pid, binary) :: Balanced.response
   def delete(balanced, id) do
-    Base.delete(balanced, @endpoint, id)
+    Base.delete(balanced, @endpoint, id, @struct, @collection_name)
   end
 
   @doc """
   Creates a customer
   """
-  @spec create(pid, Balanced.Customer.t) :: Balanced.response
+  @spec create(pid, @struct.t) :: Balanced.response
   def create(balanced, customer) do
-    Http.post(balanced, @endpoint, customer)
-    |> Balanced.API.to_response(Balanced.Customer, String.to_atom(@endpoint))
+    Base.post(balanced, @endpoint, customer, @struct, @collection_name)
   end
 
   @doc """
   Updates a customer
   """
-  @spec update(pid, binary, Balanced.Customer.t) :: Balanced.response
+  @spec update(pid, binary, @struct.t) :: Balanced.response
   def update(balanced, id, customer) do
-    Http.put(balanced, "#{@endpoint}/#{id}", customer)
-    |> Balanced.API.to_response(Balanced.Customer, String.to_atom(@endpoint))
+    Base.put(balanced, "#{@endpoint}/#{id}", customer, @struct, @collection_name)
   end
 
   @doc """
@@ -52,8 +50,7 @@ defmodule Balanced.API.Customers do
   """
   @spec add_card(pid, binary, binary) :: Balanced.response
   def add_card(balanced, customer_id, card_id) do
-    Http.put(balanced, "cards/#{card_id}", [customer: "/customers/#{customer_id}"])
-    |> Balanced.API.to_response(Balanced.Card, String.to_atom(@endpoint))
+    Base.put(balanced, "cards/#{card_id}", [customer: "/customers/#{customer_id}"], Balanced.Card, :cards)
   end
 
   @doc """
@@ -61,8 +58,7 @@ defmodule Balanced.API.Customers do
   """
   @spec add_bank_account(pid, binary, binary) :: Balanced.response
   def add_bank_account(balanced, customer_id, bank_account_id) do
-    Http.put(balanced, "bank_accounts/#{bank_account_id}", [customer: "/customers/#{customer_id}"])
-    |> Balanced.API.to_response(Balanced.BankAccount, String.to_atom(@endpoint))
+    Base.put(balanced, "bank_accounts/#{bank_account_id}", [customer: "/customers/#{customer_id}"], Balanced.BankAccount, :bank_accounts)
   end
 
 end

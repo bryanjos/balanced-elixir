@@ -12,7 +12,7 @@ defmodule CustomersTest do
 
   test "create customer", context do
     use_cassette "customer_create" do
-      nc = %Balanced.Customer{name: "Jon Doe", meta: [cool_guy: true]}
+      nc = %Balanced.Customer{name: "Jon Doe", meta: %{ cool_guy: true } }
       {status, _} = Balanced.API.Customers.create(context[:balanced], nc)
       assert(status == :ok)
     end

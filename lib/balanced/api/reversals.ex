@@ -1,15 +1,16 @@
 defmodule Balanced.API.Reversals do
-  use Balanced.API
+  alias Balanced.API.Base
   
   @endpoint "reversals"
+  @struct Balanced.Reversal
+  @collection_name String.to_atom(@endpoint)
 
   @doc """
   Gets a reversal
   """
   @spec get(pid, binary) :: Balanced.response
   def get(balanced, id) do
-    Base.get(balanced, @endpoint, id)
-    |> Balanced.API.to_response(Balanced.Reversal, String.to_atom(@endpoint))
+    Base.get(balanced, @endpoint, id, @struct, @collection_name)
   end
 
   @doc """
@@ -17,17 +18,15 @@ defmodule Balanced.API.Reversals do
   """
   @spec list(pid, number, number) :: Balanced.response
   def list(balanced, limit \\ 10, offset \\ 0) do
-    Base.list(balanced, @endpoint, limit, offset)
-    |> Balanced.API.to_response(Balanced.Reversal, String.to_atom(@endpoint))
+    Base.list(balanced, @endpoint, limit, offset, @struct, @collection_name)
   end
 
   @doc """
   Creates a reversal
   """
-  @spec create(pid, binary, Balanced.Reversal.t) :: Balanced.response
+  @spec create(pid, binary, @struct.t) :: Balanced.response
   def create(balanced, credit_id, reversal) do
-    Http.post(balanced, "credits/#{credit_id}/#{@endpoint}", reversal)
-    |> Balanced.API.to_response(Balanced.Reversal, String.to_atom(@endpoint))
+    Base.post(balanced, "credits/#{credit_id}/#{@endpoint}", reversal, @struct, @collection_name)
   end
 
   @doc """
@@ -35,8 +34,7 @@ defmodule Balanced.API.Reversals do
   """
   @spec update(pid, binary, binary, map) :: Balanced.response
   def update(balanced, id, description, meta) do
-    Http.post(balanced, "#{@endpoint}/#{id}", %{description: description, meta: meta})
-    |> Balanced.API.to_response(Balanced.Reversal, String.to_atom(@endpoint))
+    Base.post(balanced, "#{@endpoint}/#{id}", %{description: description, meta: meta}, @struct, @collection_name)
   end
 
 end

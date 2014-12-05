@@ -1,15 +1,16 @@
 defmodule Balanced.API.APIKeys do
-  use Balanced.API
+  alias Balanced.API.Base
   
   @endpoint "api_keys"
+  @struct Balanced.APIKey
+  @collection_name String.to_atom(@endpoint)
 
   @doc """
   Creates a new API Key
   """
   @spec create(pid) :: Balanced.response
   def create(balanced) do 
-    Http.post(balanced, @endpoint)
-    |> Balanced.API.to_response(Balanced.APIKey, String.to_atom(@endpoint))
+    Base.post(balanced, @endpoint, @struct, @collection_name)
   end
 
   @doc """
@@ -17,8 +18,7 @@ defmodule Balanced.API.APIKeys do
   """
   @spec get(pid, binary) :: Balanced.response
   def get(balanced, id) do 
-    Base.get(balanced, @endpoint, id)
-    |> Balanced.API.to_response(Balanced.APIKey, String.to_atom(@endpoint))
+    Base.get(balanced, @endpoint, id, @struct, @collection_name)
   end
 
   @doc """
@@ -26,8 +26,7 @@ defmodule Balanced.API.APIKeys do
   """
   @spec list(pid, number, number) :: Balanced.response
   def list(balanced, limit \\ 0, offset \\ 0) do 
-    Base.list(balanced, @endpoint, limit, offset)
-    |> Balanced.API.to_response(Balanced.APIKey, String.to_atom(@endpoint))
+    Base.list(balanced, @endpoint, limit, offset, @struct, @collection_name)
   end
 
   @doc """
@@ -35,7 +34,7 @@ defmodule Balanced.API.APIKeys do
   """
   @spec delete(pid, binary) :: Balanced.response
   def delete(balanced, id) do
-    Base.delete(balanced, @endpoint, id)
+    Base.delete(balanced, @endpoint, id, @struct, @collection_name)
   end
 
 end

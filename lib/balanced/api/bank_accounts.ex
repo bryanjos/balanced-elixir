@@ -1,15 +1,16 @@
 defmodule Balanced.API.BankAccounts do
-  use Balanced.API
+  alias Balanced.API.Base
   
   @endpoint "bank_accounts"
+  @struct Balanced.BankAccount
+  @collection_name String.to_atom(@endpoint)
 
   @doc """
   Creates a new bank account
   """
-  @spec create(pid, Balanced.BankAccount.t) :: Balanced.response
+  @spec create(pid, @struct.t) :: Balanced.response
   def create(balanced, bank_account) do
-    Http.post(balanced, @endpoint, bank_account)
-    |> Balanced.API.to_response(Balanced.BankAccount, String.to_atom(@endpoint))
+    Base.post(balanced, @endpoint, bank_account, @struct, @collection_name)
   end
 
   @doc """
@@ -17,8 +18,7 @@ defmodule Balanced.API.BankAccounts do
   """
   @spec get(pid, binary) :: Balanced.response
   def get(balanced, id) do
-    Base.get(balanced, @endpoint, id)
-    |> Balanced.API.to_response(Balanced.BankAccount, String.to_atom(@endpoint))
+    Base.get(balanced, @endpoint, id, @struct, @collection_name)
   end
 
   @doc """
@@ -26,8 +26,7 @@ defmodule Balanced.API.BankAccounts do
   """
   @spec list(pid, number, number) :: Balanced.response
   def list(balanced, limit \\ 10, offset \\ 0) do
-    Base.list(balanced, @endpoint, limit, offset)
-    |> Balanced.API.to_response(Balanced.BankAccount, String.to_atom(@endpoint))
+    Base.list(balanced, @endpoint, limit, offset, @struct, @collection_name)
   end
 
   @doc """
@@ -35,8 +34,7 @@ defmodule Balanced.API.BankAccounts do
   """
   @spec update(pid, binary, map, map) :: Balanced.response
   def update(balanced, id, meta, links) do
-    Http.put(balanced, "#{@endpoint}/#{id}", %{meta: meta, links: links})
-    |> Balanced.API.to_response(Balanced.BankAccount, String.to_atom(@endpoint))
+    Base.put(balanced, "#{@endpoint}/#{id}", %{meta: meta, links: links}, @struct, @collection_name)
   end
 
   @doc """
@@ -44,7 +42,7 @@ defmodule Balanced.API.BankAccounts do
   """
   @spec delete(pid, binary) :: Balanced.response
   def delete(balanced, id) do
-    Base.delete(balanced, @endpoint, id)
+    Base.delete(balanced, @endpoint, id, @struct, @collection_name)
   end
 
   @doc """
@@ -52,8 +50,7 @@ defmodule Balanced.API.BankAccounts do
   """
   @spec debit(pid, binary, Balanced.Debit.t) :: Balanced.response
   def debit(balanced, id, debit) do
-    Http.post(balanced, "#{@endpoint}/#{id}/debits", debit)
-    |> Balanced.API.to_response(Balanced.Debit, :debits)
+    Base.post(balanced, "#{@endpoint}/#{id}/debits", debit, Balanced.Debit, :debits)
   end
 
   @doc """
@@ -61,8 +58,7 @@ defmodule Balanced.API.BankAccounts do
   """
   @spec credit(pid, binary, Balanced.Credit.t) :: Balanced.response
   def credit(balanced, id, credit) do
-    Http.post(balanced, "#{@endpoint}/#{id}/credits", credit)
-    |> Balanced.API.to_response(Balanced.Credit, :credits)
+    Base.post(balanced, "#{@endpoint}/#{id}/credits", credit, Balanced.Credit, :credits)
   end
 
   @doc """
@@ -70,8 +66,7 @@ defmodule Balanced.API.BankAccounts do
   """
   @spec credits(pid, binary, number, number) :: Balanced.response
   def credits(balanced, id, limit \\ 10, offset \\ 0) do
-    Base.list(balanced, "#{@endpoint}/#{id}/credits", limit, offset)
-    |> Balanced.API.to_response(Balanced.Credit, :credits)
+    Base.list(balanced, "#{@endpoint}/#{id}/credits", limit, offset, Balanced.Credit, :credits)
   end
 
 end

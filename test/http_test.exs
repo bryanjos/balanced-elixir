@@ -2,7 +2,7 @@ defmodule HttpTest do
     use ExUnit.Case, async: true
 
   test "get param string" do
-    s = Balanced.API.Http.encode_params([a: 1, b: 2, c: [d: 4]],"")
+    s = Balanced.API.Http.encode_params(%{ a: 1, b: 2, c: %{d: 4} }, "")
     assert(s == "a=1&b=2&c[d]=4")
   end
 

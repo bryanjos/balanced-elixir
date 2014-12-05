@@ -1,8 +1,4 @@
 defmodule Balanced.API.Http do
-  use Mix.Config
-  alias HTTPotion.Response
-  require Logger
-
   @form_header  ["Content-Type": "application/x-www-form-urlencoded"]
   @url "https://api.balancedpayments.com/"
 
@@ -31,13 +27,11 @@ defmodule Balanced.API.Http do
     end
 
     defp handle_response(response) do
-      data = if response.body == "", do: "{}", else: response.body
-      |> Poison.decode!(keys: :atoms)
-
-      if Response.success?(response) do
-        {:ok, data}
-      else
-        {:error, data}
+      case HTTPotion.Response.success?(response) do
+        true ->
+          {:ok, response.body}
+        false ->
+          {:error, response.body}         
       end
     end
 
@@ -45,41 +39,44 @@ defmodule Balanced.API.Http do
       encode_params(params, "")
     end
 
+    def encode_params(params, header) when is_map(params) do
+      struct_to_list(params) |> encode_params(header)
+    end
+
     def encode_params(params, header) when is_list(params) do
       params
       |> Enum.map(&get_param_string(&1, header))
+      |> Enum.filter(fn(x) -> x != nil end)
       |> Enum.join("&")
     end
 
-    def encode_params(params, header) when is_map(params) do
-      Map.from_struct(params)
-      |> Map.to_list
-      |> encode_params(header)
-      |> String.replace("[nil]&","")
-      |> String.replace("&[nil]","")
+    def get_param_string({_, nil}, _)do
+      nil
     end
 
-    def get_param_string(kv, header) do
-      {key, value} = kv
-      cond do
-        value == nil ->
-          "[nil]"
-        is_map(value) ->
-          Map.from_struct(value)
-          |> Map.to_list
-          |> encode_params(key)
-        !is_list(value) and header == "" ->
-          "#{key}=#{value}"
-        !is_list(value) and header != "" ->
-          "#{header}[#{key}]=#{value}"
-        true ->
-          encode_params(value, key)
-      end
+    def get_param_string({key, value}, _) when is_map(value) do
+      struct_to_list(value) |> encode_params(key)
+    end
+
+    def get_param_string({key, value}, _) when is_list(value) do
+      encode_params(value, key)
+    end
+
+    def get_param_string({key, value}, "") do
+      "#{key}=#{value}"
+    end
+
+    def get_param_string({key, value}, header) do
+      "#{header}[#{key}]=#{value}"
     end
 
     defp get_headers(balanced) do
       secret_key = Balanced.secret_key(balanced)
       basic_auth = :base64.encode_to_string("#{secret_key}:")
       [ "Authorization": "Basic #{basic_auth}", "Accept": "application/vnd.api+json;revision=1.1" ]
+    end
+
+    defp struct_to_list(struct) do
+      Map.drop(struct, [:__struct__]) |> Map.to_list   
     end
 end

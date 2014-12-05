@@ -1,15 +1,16 @@
 defmodule Balanced.API.CardHolds do
-  use Balanced.API
+  alias Balanced.API.Base
   
   @endpoint "card_holds"
+  @struct Balanced.CardHold
+  @collection_name String.to_atom(@endpoint)
 
   @doc """
   Creates a Card Hold
   """
   @spec create(pid, binary, CardHold.t) :: Balanced.response
   def create(balanced, card_id, card_hold) do
-    Http.post(balanced, "cards/#{card_id}/#{@endpoint}", card_hold)
-    |> Balanced.API.to_response(Balanced.CardHold, String.to_atom(@endpoint))
+    Base.post(balanced, "cards/#{card_id}/#{@endpoint}", card_hold, @struct, @collection_name)
   end
 
   @doc """
@@ -17,8 +18,7 @@ defmodule Balanced.API.CardHolds do
   """
   @spec get(pid, binary) :: Balanced.response
   def get(balanced, id) do 
-    Base.get(balanced, @endpoint, id)
-    |> Balanced.API.to_response(Balanced.CardHold, String.to_atom(@endpoint))
+    Base.get(balanced, @endpoint, id, @struct, @collection_name)
   end
 
   @doc """
@@ -26,8 +26,7 @@ defmodule Balanced.API.CardHolds do
   """
   @spec list(pid, number, number) :: Balanced.response
   def list(balanced, limit \\ 10, offset \\ 0) do
-    Base.list(balanced, @endpoint, limit, offset)
-    |> Balanced.API.to_response(Balanced.CardHold, String.to_atom(@endpoint))
+    Base.list(balanced, @endpoint, limit, offset, @struct, @collection_name)
   end
 
   @doc """
@@ -35,8 +34,7 @@ defmodule Balanced.API.CardHolds do
   """
   @spec update(pid, binary, binary, map) :: Balanced.response
   def update(balanced, id, description, meta) do
-    Http.put(balanced, "#{@endpoint}/#{id}", %{description: description, meta: meta})
-    |> Balanced.API.to_response(Balanced.CardHold, String.to_atom(@endpoint))
+    Base.put(balanced, "#{@endpoint}/#{id}", %{description: description, meta: meta}, @struct, @collection_name)
   end
 
   @doc """
@@ -44,8 +42,7 @@ defmodule Balanced.API.CardHolds do
   """
   @spec capture(pid, binary, Balanced.Debit.t) :: Balanced.response
   def capture(balanced, id, debit) do
-    Http.post(balanced, "#{@endpoint}/#{id}/debits", debit)
-    |> Balanced.API.to_response(Balanced.Debit, :debits)
+    Base.post(balanced, "#{@endpoint}/#{id}/debits", debit, Balanced.Debit, :debits)
   end
 
   @doc """
@@ -53,7 +50,7 @@ defmodule Balanced.API.CardHolds do
   """
   @spec void(pid, binary) :: Balanced.response
   def void(balanced, id) do
-    Http.delete(balanced, "#{@endpoint}/#{id}")
+    Base.delete(balanced, "#{@endpoint}/#{id}", @struct, @collection_name)
   end
 
 end
