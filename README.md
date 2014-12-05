@@ -9,7 +9,7 @@ use the following:
 {:balanced, "~> 3.0.0"}
 ```
 
-[Documentation](http://hexdocs.pm/balanced-elixir)
+[Documentation](http://hexdocs.pm/balanced)
 
 Usage:
 ```elixir
