@@ -5,7 +5,7 @@ defmodule Balanced.Mixfile do
 
   def project do
     [ app: :balanced,
-      version: "3.0.0",
+      version: "3.1.0",
       elixir: "~> 1.0.0",
       deps: deps,
       description: "Balanced API for Elixir",

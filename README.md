@@ -6,14 +6,14 @@ Usage:
 
 use the following:
 ```elixir
-{:balanced, "~> 3.0.0"}
+{:balanced, "~> 3.1.0"}
 ```
 
 [Documentation](http://hexdocs.pm/balanced)
 
 Usage:
 ```elixir
-#looks for an environment variable named BALANCED_SECRET_KEY
+#looks for an application variable in the `:balanced` app named `:secret_key` or an environment variable named BALANCED_SECRET_KEY
 {:ok, balanced} = Balanced.new
 
 #alternatively, you can pass in the secret key as well
@@ -23,7 +23,7 @@ Usage:
 {status, response} = Balanced.BankAccounts.get(balanced, bank_account_id)
 ```
 
-status is either :ok or :error
+status is either `:ok` or `:error`
 
 response is a Map converted from the json response from Balanced.
 

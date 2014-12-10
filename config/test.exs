@@ -4,4 +4,4 @@ config :logger,
    level: :debug,
    format: "$time $metadata[$level] $levelpad$message\n"
 
-config :balanced, secret_key: "ak-test-ClKVXZ2mdMCdBZHULsAl53ZJKtuGTpqT", time_out: 30000
+config :balanced, secret_key: "ak-test-ClKVXZ2mdMCdBZHULsAl53ZJKtuGTpqT"
